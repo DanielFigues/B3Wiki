@@ -5,7 +5,7 @@ import { useReducedMotion } from '../hooks/useReducedMotion'
 import SplitText from '../components/reactbits/TextAnimations/SplitText/SplitText'
 import BlurText from '../components/reactbits/TextAnimations/BlurText/BlurText'
 import CountUp from '../components/reactbits/TextAnimations/CountUp/CountUp'
-import Magnet from '../components/reactbits/Animations/Magnet/Magnet'
+
 import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
 import ShinyText from '../components/reactbits/TextAnimations/ShinyText/ShinyText'
 import FadeContent from '../components/reactbits/Animations/FadeContent/FadeContent'
@@ -101,17 +101,8 @@ function Home() {
         </div>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          {reduceMotion ? (
-            <>
-              {ctaExplorar}
-              {ctaCriar}
-            </>
-          ) : (
-            <>
-              <Magnet magnetStrength={3}>{ctaExplorar}</Magnet>
-              <Magnet magnetStrength={3}>{ctaCriar}</Magnet>
-            </>
-          )}
+          {ctaExplorar}
+          {ctaCriar}
         </div>
       </section>
 

@@ -2,14 +2,11 @@ import { Link, useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import { Infobox } from '../components/index'
 import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
-import Magnet from '../components/reactbits/Animations/Magnet/Magnet'
-import { useReducedMotion } from '../hooks/useReducedMotion'
 import { useWiki } from '../store/index'
 
 function ArticleView() {
   const { slug = '' } = useParams()
   const { articles } = useWiki()
-  const reduceMotion = useReducedMotion()
   const article = articles[slug]
 
   if (!article) {
@@ -27,7 +24,7 @@ function ArticleView() {
         <p className="mt-2 text-ink-muted">
           Não existe nenhum artigo com o endereço “{slug}”.
         </p>
-        {reduceMotion ? criar : <Magnet magnetStrength={4}>{criar}</Magnet>}
+        {criar}
       </div>
     )
   }
@@ -45,7 +42,7 @@ function ArticleView() {
     <article>
       <div className="flex items-center justify-between gap-4 border-b border-line pb-3">
         <h1 className="text-3xl font-bold text-ink-heading">{article.title}</h1>
-        {reduceMotion ? editar : <Magnet magnetStrength={4}>{editar}</Magnet>}
+        {editar}
       </div>
 
       {article.summary && <p className="mt-3 text-ink-muted">{article.summary}</p>}
