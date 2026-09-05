@@ -6,20 +6,30 @@ interface InfoboxProps {
 
 function Infobox({ data }: InfoboxProps) {
   return (
-    <aside className="infobox">
-      <h3 className="infobox-title">{data.title}</h3>
+    <aside className="mb-4 w-full overflow-hidden rounded border border-line bg-paper text-sm shadow md:w-64">
+      <h2 className="bg-accent px-3 py-1.5 font-semibold text-accent-contrast">
+        {data.title}
+      </h2>
       {data.imageUrl && (
-        <figure className="infobox-image">
-          <img src={data.imageUrl} alt={data.title} />
-          {data.caption && <figcaption>{data.caption}</figcaption>}
+        <figure className="border-b border-line">
+          <img src={data.imageUrl} alt={data.title} className="h-auto w-full" />
+          {data.caption && (
+            <figcaption className="px-3 py-1 text-xs text-ink-muted">{data.caption}</figcaption>
+          )}
         </figure>
       )}
-      <dl className="infobox-fields">
+      <dl className="divide-y divide-line">
         {data.fields.map((field) => (
-          <div key={field.label} className="infobox-field">
-            <dt>{field.label}</dt>
-            <dd>
-              {field.href ? <a href={field.href}>{field.value}</a> : field.value}
+          <div key={field.label} className="px-3 py-1.5">
+            <dt className="text-xs font-semibold text-ink-muted">{field.label}</dt>
+            <dd className="text-ink">
+              {field.href ? (
+                <a href={field.href} className="text-accent hover:underline">
+                  {field.value}
+                </a>
+              ) : (
+                field.value
+              )}
             </dd>
           </div>
         ))}
