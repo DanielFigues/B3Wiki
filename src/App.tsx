@@ -1,38 +1,21 @@
-import { Routes, Route } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
+import { WikiProvider } from './store/index'
 import { Layout } from './components/index'
-import { Home, ArticleView, Editor } from './pages/index'
-import type { SidebarCategory } from './types/index'
-
-const siteName = 'B3Wiki'
-
-const categories: SidebarCategory[] = [
-  {
-    title: 'Main',
-    links: [
-      { slug: 'home', title: 'Home', url: '/' },
-      { slug: 'example', title: 'Example Article', url: '/wiki/example' },
-    ],
-  },
-  {
-    title: 'Community',
-    links: [
-      { slug: 'rules', title: 'Rules', url: '/wiki/rules' },
-      { slug: 'members', title: 'Members', url: '/wiki/members' },
-    ],
-  },
-]
+import { ArticleView, CategoryPage, Editor, Home, SearchPage } from './pages/index'
 
 function App() {
   return (
-    <Routes>
-      <Route
-        element={<Layout siteName={siteName} categories={categories} />}
-      >
-        <Route path="/" element={<Home />} />
-        <Route path="/wiki/:slug" element={<ArticleView />} />
-        <Route path="/editor" element={<Editor />} />
-      </Route>
-    </Routes>
+    <WikiProvider>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/wiki/:slug" element={<ArticleView />} />
+          <Route path="/categoria/:categoria" element={<CategoryPage />} />
+          <Route path="/busca" element={<SearchPage />} />
+          <Route path="/editor" element={<Editor />} />
+        </Route>
+      </Routes>
+    </WikiProvider>
   )
 }
 
