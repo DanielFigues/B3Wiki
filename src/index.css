@@ -147,6 +147,10 @@
   }
 }
 
+.hero-dark h1.split-parent {
+  white-space: nowrap;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
