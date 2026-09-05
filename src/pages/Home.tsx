@@ -6,6 +6,9 @@ import SplitText from '../components/reactbits/TextAnimations/SplitText/SplitTex
 import BlurText from '../components/reactbits/TextAnimations/BlurText/BlurText'
 import CountUp from '../components/reactbits/TextAnimations/CountUp/CountUp'
 import Magnet from '../components/reactbits/Animations/Magnet/Magnet'
+import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
+import ShinyText from '../components/reactbits/TextAnimations/ShinyText/ShinyText'
+import FadeContent from '../components/reactbits/Animations/FadeContent/FadeContent'
 
 function Home() {
   const { config, articles } = useWiki()
@@ -35,6 +38,23 @@ function Home() {
       Criar artigo
     </Link>
   )
+
+  const SectionTitle = ({ children }: { children: string }) =>
+    reduceMotion ? (
+      <h2 className="text-xl font-semibold text-ink-heading">{children}</h2>
+    ) : (
+      <h2 className="text-xl font-semibold text-ink-heading">
+        <ShinyText
+          text={children}
+          speed={3}
+          delay={0.6}
+          spread={100}
+          color="var(--color-ink-heading)"
+          shineColor="var(--color-accent)"
+          pauseOnHover
+        />
+      </h2>
+    )
 
   return (
     <div className="space-y-10">
@@ -94,47 +114,90 @@ function Home() {
         </div>
       </section>
 
-      {/* seções recentes/categorias permanecem como estão (Task 5) */}
-
       <section id="artigos" className="scroll-mt-6">
-        <h2 className="mb-2 text-xl font-semibold text-ink-heading">Artigos recentes</h2>
+        <SectionTitle>Artigos recentes</SectionTitle>
         {recent.length === 0 ? (
           <p className="text-ink-muted">Nenhum artigo ainda. Crie o primeiro no editor.</p>
-        ) : (
-          <ul className="space-y-3">
+        ) : reduceMotion ? (
+          <ul className="mt-3 space-y-3">
             {recent.map((article) => (
               <li key={article.slug}>
-                <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="text-accent hover:underline">
-                  {article.title}
+                <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="block hover:no-underline">
+                  <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="p-4 text-left">
+                    <h3 className="font-semibold text-ink-heading">{article.title}</h3>
+                    <p className="mt-1 text-sm text-ink-muted">{article.summary}</p>
+                  </SpotlightCard>
                 </Link>
-                <p className="text-sm text-ink-muted">{article.summary}</p>
               </li>
             ))}
           </ul>
+        ) : (
+          <FadeContent duration={700}>
+            <ul className="mt-3 space-y-3">
+              {recent.map((article) => (
+                <li key={article.slug}>
+                  <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="block hover:no-underline">
+                    <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="p-4 text-left">
+                      <h3 className="font-semibold text-ink-heading">{article.title}</h3>
+                      <p className="mt-1 text-sm text-ink-muted">{article.summary}</p>
+                    </SpotlightCard>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </FadeContent>
         )}
       </section>
 
       <section>
-        <h2 className="mb-2 text-xl font-semibold text-ink-heading">Categorias</h2>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {config.categories.map((category) => {
-            const count = Object.values(articles).filter((article) =>
-              article.categories.includes(category.title),
-            ).length
-            return (
-              <Link
-                key={category.title}
-                to={`/categoria/${slugify(category.title)}`}
-                className="rounded border border-line bg-surface p-4 hover:border-accent hover:no-underline"
-              >
-                <h3 className="font-semibold text-ink-heading">{category.title}</h3>
-                <p className="text-sm text-ink-muted">
-                  {count === 1 ? '1 artigo' : `${count} artigos`}
-                </p>
-              </Link>
-            )
-          })}
-        </div>
+        <SectionTitle>Categorias</SectionTitle>
+        {reduceMotion ? (
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            {config.categories.map((category) => {
+              const count = Object.values(articles).filter((article) =>
+                article.categories.includes(category.title),
+              ).length
+              return (
+                <Link
+                  key={category.title}
+                  to={`/categoria/${slugify(category.title)}`}
+                  className="block hover:no-underline"
+                >
+                  <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="h-full p-5 text-left">
+                    <h3 className="font-semibold text-ink-heading">{category.title}</h3>
+                    <p className="mt-1 text-sm text-ink-muted">
+                      {count === 1 ? '1 artigo' : `${count} artigos`}
+                    </p>
+                  </SpotlightCard>
+                </Link>
+              )
+            })}
+          </div>
+        ) : (
+          <FadeContent duration={700}>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              {config.categories.map((category) => {
+                const count = Object.values(articles).filter((article) =>
+                  article.categories.includes(category.title),
+                ).length
+                return (
+                  <Link
+                    key={category.title}
+                    to={`/categoria/${slugify(category.title)}`}
+                    className="block hover:no-underline"
+                  >
+                    <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="h-full p-5 text-left">
+                      <h3 className="font-semibold text-ink-heading">{category.title}</h3>
+                      <p className="mt-1 text-sm text-ink-muted">
+                        {count === 1 ? '1 artigo' : `${count} artigos`}
+                      </p>
+                    </SpotlightCard>
+                  </Link>
+                )
+              })}
+            </div>
+          </FadeContent>
+        )}
       </section>
     </div>
   )
