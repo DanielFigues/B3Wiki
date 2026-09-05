@@ -6,6 +6,7 @@ export interface Article {
   content: string
   categories: string[]
   updatedAt: string
+  infobox?: InfoboxData
 }
 
 export interface ArticleLink {
