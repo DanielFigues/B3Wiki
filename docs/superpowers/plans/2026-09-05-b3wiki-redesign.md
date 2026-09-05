@@ -39,12 +39,12 @@
 - Consumes: nada (fundo do layout atual).
 - Produces: tokens `--color-*` (paper/surface/line/ink/ink-muted/ink-heading/accent/accent-contrast/accent-2/accent-soft/glow/code), `--font-display`, classes `.text-gradient-animated` e `.hero-dark`, bloco global `@media (prefers-reduced-motion)` em `src/index.css`.
 
-- [ ] **Step 1: Instalar a fonte display**
+- [x] **Step 1: Instalar a fonte display**
 
 Run: `npm install @fontsource-variable/space-grotesk`
 Expected: exit 0; `@fontsource-variable/space-grotesk` aparece em `package.json` dependencies.
 
-- [ ] **Step 2: Registrar a fonte em `main.tsx`**
+- [x] **Step 2: Registrar a fonte em `main.tsx`**
 
 Adicionar o import de efeito ANTES de `import './index.css'`:
 
@@ -53,7 +53,7 @@ import '@fontsource-variable/space-grotesk'
 import './index.css'
 ```
 
-- [ ] **Step 3: Reescrever `src/index.css`**
+- [x] **Step 3: Reescrever `src/index.css`**
 
 ```css
 @import "tailwindcss";
@@ -217,7 +217,7 @@ import './index.css'
 }
 ```
 
-- [ ] **Step 4: Verificar build e lint**
+- [x] **Step 4: Verificar build e lint**
 
 Run: `npm run build`
 Expected: exit 0, sem erros do tsc (o app inteiro agora usa os tokens dark-first).
@@ -228,7 +228,7 @@ Expected: exit 0 (nenhum erro novo).
 Run: `npm run test`
 Expected: 13 pass (nenhum teste depende de cores/tokens).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 `git add src/index.css src/main.tsx package.json package-lock.json`
 `git commit -m "style: tema dark-first vibrante com Space Grotesk"`
@@ -249,12 +249,12 @@ Expected: 13 pass (nenhum teste depende de cores/tokens).
   - Componentes importáveis por caminho: `../components/reactbits/Backgrounds/Particles/Particles` (default `Particles`), `../components/reactbits/TextAnimations/SplitText/SplitText`, `BlurText/BlurText`, `CountUp/CountUp`, `ShinyText/ShinyText`, `../components/reactbits/Animations/Magnet/Magnet`, `../components/reactbits/Animations/FadeContent/FadeContent`, `../components/reactbits/Components/SpotlightCard/SpotlightCard`.
   - `AnimatedBackground` (Task 3) usará `Particles` e `useReducedMotion`.
 
-- [ ] **Step 1: Instalar dependências**
+- [x] **Step 1: Instalar dependências**
 
 Run: `npm install gsap @gsap/react motion ogl`
 Expected: exit 0. (Particles→ogl; SplitText/FadeContent→gsap+@gsap/react; BlurText/CountUp/ShinyText→motion; SpotlightCard/Magnet não precisam.)
 
-- [ ] **Step 2: Habilitar default-import de React no tsc**
+- [x] **Step 2: Habilitar default-import de React no tsc**
 
 Em `tsconfig.app.json`, dentro de `compilerOptions`, adicionar:
 
@@ -262,7 +262,7 @@ Em `tsconfig.app.json`, dentro de `compilerOptions`, adicionar:
     "allowSyntheticDefaultImports": true,
 ```
 
-- [ ] **Step 3: Copiar os 8 componentes da fonte oficial (TS-TW)**
+- [x] **Step 3: Copiar os 8 componentes da fonte oficial (TS-TW)**
 
 Para cada componente, criar a pasta e baixar o `.tsx` do `main` (PowerShell):
 
@@ -285,7 +285,7 @@ Repetir o mesmo padrão para os demais (URI base `https://raw.githubusercontent.
 
 Expected: 8 arquivos presentes. NÃO editar o conteúdo interno (exceto o ajuste do SpotlightCard no passo 4). Se algum raw falhar, pesquisa a fonte em `main` novamente (pode ter sido renomeada no upstream).
 
-- [ ] **Step 4: Ajustar as classes-base e o gating de reduced-motion do SpotlightCard**
+- [x] **Step 4: Ajustar as classes-base e o gating de reduced-motion do SpotlightCard**
 
 No arquivo copiado `src/components/reactbits/Components/SpotlightCard/SpotlightCard.tsx`:
 
@@ -339,7 +339,7 @@ por:
 
 NÃO mexer em mais nada do arquivo (o restante do markup/tipos permanece como veio da fonte).
 
-- [ ] **Step 5: Escrever o teste do hook (deve falhar)**
+- [x] **Step 5: Escrever o teste do hook (deve falhar)**
 
 Criar `src/hooks/useReducedMotion.test.ts`:
 
@@ -399,12 +399,12 @@ describe('useReducedMotion', () => {
 
 O requisito mínimo são os 2 primeiros casos + a atualização (3º). Garanta que ao final cada teste limpe o global (`vi.unstubAllGlobals()`).
 
-- [ ] **Step 6: Rodar o teste e ver falhar (hook não existe)**
+- [x] **Step 6: Rodar o teste e ver falhar (hook não existe)**
 
 Run: `npx vitest run src/hooks/useReducedMotion.test.ts`
 Expected: FAIL (module `./useReducedMotion` não resolvido/`useReducedMotion is not a function`).
 
-- [ ] **Step 7: Implementar o hook**
+- [x] **Step 7: Implementar o hook**
 
 Criar `src/hooks/useReducedMotion.ts`:
 
@@ -427,18 +427,18 @@ export function useReducedMotion(): boolean {
 }
 ```
 
-- [ ] **Step 8: Rodar o teste e ver passar**
+- [x] **Step 8: Rodar o teste e ver passar**
 
 Run: `npx vitest run src/hooks/useReducedMotion.test.ts`
 Expected: PASS (3 itens).
 
-- [ ] **Step 9: Verificar suite completa, lint e build**
+- [x] **Step 9: Verificar suite completa, lint e build**
 
 Run: `npm run test` → 16 pass (13 antigos + 3 novos).
 Run: `npm run lint` → exit 0 (sem erros novos; comentários `eslint-disable` dentro dos componentes copiados são ignorados pelo oxlint).
 Run: `npm run build` → exit 0 (`tsc -b` compila os novos componentes — o flag do passo 2 cobre os `import React from 'react'`).
 
-- [ ] **Step 10: Commit**
+- [x] **Step 10: Commit**
 
 `git add src/components/reactbits src/hooks tsconfig.app.json package.json package-lock.json`
 `git commit -m "feat: infra reactbits (particles, textos, cards) e hook de reduced-motion"`
@@ -455,7 +455,7 @@ Run: `npm run build` → exit 0 (`tsc -b` compila os novos componentes — o fla
 - Consumes: `Particles` (default, props `particleCount?`, `particleSpread?`, `speed?`, `particleColors?`, `alphaParticles?`, `pixelRatio?`), `useReducedMotion`.
 - Produces: `AnimatedBackground` (componente sem props; renderiza nada quando reduced-motion ou aba oculta) — consumido pelo `Layout`; exportado no barrel.
 
-- [ ] **Step 1: Criar `src/components/AnimatedBackground.tsx`**
+- [x] **Step 1: Criar `src/components/AnimatedBackground.tsx`**
 
 ```tsx
 import { useEffect, useState } from 'react'
@@ -494,7 +494,7 @@ export default AnimatedBackground
 
 Nota: o componente Particles já cancela o `requestAnimationFrame` no unmount; sair da aba desmonta o canvas (gating `document.hidden`).
 
-- [ ] **Step 2: Montar no `Layout`**
+- [x] **Step 2: Montar no `Layout`**
 
 Em `src/components/Layout.tsx`, importar e renderizar antes do wrapper de conteúdo:
 
@@ -526,7 +526,7 @@ O `<Header>` permanece em largura total (raiz do Layout, como no app atual) — 
 
 Observação: `-z-10` no painel fixo mantém o canvas ATRÁS do conteúdo (acima do fundo da página). O `relative` no root/wrappers garante empilhamento previsível.
 
-- [ ] **Step 3: Exportar no barrel**
+- [x] **Step 3: Exportar no barrel**
 
 Em `src/components/index.ts`:
 
@@ -534,13 +534,13 @@ Em `src/components/index.ts`:
 export { default as AnimatedBackground } from './AnimatedBackground'
 ```
 
-- [ ] **Step 4: Verificar lint/build**
+- [x] **Step 4: Verificar lint/build**
 
 Run: `npm run lint` → exit 0.
 Run: `npm run build` → exit 0.
 Run: `npm run test` → 16 pass.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 `git add src/components/AnimatedBackground.tsx src/components/Layout.tsx src/components/index.ts`
 `git commit -m "feat: fundo global de particles no layout"`
@@ -556,7 +556,7 @@ Run: `npm run test` → 16 pass.
 - Consumes: `useReducedMotion`, `SplitText`, `BlurText`, `CountUp`, `Magnet`; `config`/`articles` do `useWiki`.
 - Produces: primeira seção da Home = hero com `class="hero-dark"`, âncora `id="artigos"` na seção de recentes (alvo de "Explorar wiki"); seções Categorias/Recentes ainda SEM spotlight (Task 5).
 
-- [ ] **Step 1: Reescrever a seção inicial da Home**
+- [x] **Step 1: Reescrever a seção inicial da Home**
 
 Em `src/pages/Home.tsx`, acrescentar os imports e substituir a primeira `<section>` por:
 
@@ -660,7 +660,7 @@ function Home() {
       {/* seções recentes/categorias permanecem como estão (Task 5) */}
 ```
 
-- [ ] **Step 2: Adicionar `id="artigos"` na seção de recentes**
+- [x] **Step 2: Adicionar `id="artigos"` na seção de recentes**
 
 Na `<section>` que contém "Artigos recentes", usar:
 
@@ -668,13 +668,13 @@ Na `<section>` que contém "Artigos recentes", usar:
 <section id="artigos" className="scroll-mt-6">
 ```
 
-- [ ] **Step 3: Verificar lint/build/test**
+- [x] **Step 3: Verificar lint/build/test**
 
 Run: `npm run lint` → exit 0 (o JSX de Multi-line ternários com condicionais é aceito; se o oxlint reclamar de complexidade, extrair o bloco do hero para `HeroSection({ reduceMotion, ... })` local no arquivo).
 Run: `npm run build` → exit 0.
 Run: `npm run test` → 16 pass.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 `git add src/pages/Home.tsx`
 `git commit -m "feat: hero animado da página inicial com gradiente e stats"`
@@ -690,7 +690,7 @@ Run: `npm run test` → 16 pass.
 - Consumes: `SpotlightCard`, `ShinyText`, `FadeContent` (e `reduceMotion` já existente).
 - Produces: seções "Artigos recentes" em card-spotlight, "Categorias" em grid de spotlight-cards, títulos de seção com `ShinyText`, testes de reveal com `FadeContent`. Mantém os estados vazios PT-BR atuais.
 
-- [ ] **Step 1: Adicionar imports e const `ShinySectionTitle`**
+- [x] **Step 1: Adicionar imports e const `ShinySectionTitle`**
 
 Imports novos em `src/pages/Home.tsx`:
 
@@ -724,7 +724,7 @@ function SectionTitle({ reduceMotion, children }: { reduceMotion: boolean; child
 
 Os pontos de uso passam a `<SectionTitle reduceMotion={reduceMotion}>…</SectionTitle>`.
 
-- [ ] **Step 2: Reescrever a seção "Artigos recentes"**
+- [x] **Step 2: Reescrever a seção "Artigos recentes"**
 
 ```tsx
 <section id="artigos" className="scroll-mt-6">
@@ -763,7 +763,7 @@ Os pontos de uso passam a `<SectionTitle reduceMotion={reduceMotion}>…</Sectio
 </section>
 ```
 
-- [ ] **Step 3: Reescrever a seção "Categorias"**
+- [x] **Step 3: Reescrever a seção "Categorias"**
 
 ```tsx
 <section>
@@ -818,13 +818,13 @@ Os pontos de uso passam a `<SectionTitle reduceMotion={reduceMotion}>…</Sectio
 </section>
 ```
 
-- [ ] **Step 4: Verificar lint/build/test**
+- [x] **Step 4: Verificar lint/build/test**
 
 Run: `npm run lint` → exit 0.
 Run: `npm run build` → exit 0.
 Run: `npm run test` → 16 pass.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 `git add src/pages/Home.tsx`
 `git commit -m "feat: cards com spotlight e reveals na página inicial"`
@@ -840,7 +840,7 @@ Run: `npm run test` → 16 pass.
 - Consumes: `Magnet`, `useReducedMotion`.
 - Produces: logo com glow suave no hover; botão "Artigo aleatório" magnético (e neutro com reduced-motion). Nada muda de comportamento.
 
-- [ ] **Step 1: Aplicar glow no logo e magnet no CTA**
+- [x] **Step 1: Aplicar glow no logo e magnet no CTA**
 
 Em `src/components/Header.tsx`, importar e ajustar:
 
@@ -898,13 +898,13 @@ export default Header
 
 Nota: header agora usa `bg-surface` (painel elevado do tema) — recebe os tokens automaticamente.
 
-- [ ] **Step 2: Verificar lint/build/test**
+- [x] **Step 2: Verificar lint/build/test**
 
 Run: `npm run lint` → exit 0.
 Run: `npm run build` → exit 0.
 Run: `npm run test` → 16 pass.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 `git add src/components/Header.tsx`
 `git commit -m "feat: cta magnético e glow no logo do header"`
@@ -920,7 +920,7 @@ Run: `npm run test` → 16 pass.
 - Consumes: `SpotlightCard`, `Magnet`, `useReducedMotion`.
 - Produces: Infobox envolvido em SpotlightCard (quando `article.infobox`); botões "Editar" e "Criar este artigo" magnéticos (neutros com reduced-motion). Estados "não encontrado" e layout intactos.
 
-- [ ] **Step 1: Editar `src/pages/ArticleView.tsx`**
+- [x] **Step 1: Editar `src/pages/ArticleView.tsx`**
 
 ```tsx
 import { Link, useParams } from 'react-router-dom'
@@ -994,13 +994,13 @@ function ArticleView() {
 export default ArticleView
 ```
 
-- [ ] **Step 2: Verificar lint/build/test**
+- [x] **Step 2: Verificar lint/build/test**
 
 Run: `npm run lint` → exit 0.
 Run: `npm run build` → exit 0.
 Run: `npm run test` → 16 pass.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 `git add src/pages/ArticleView.tsx`
 `git commit -m "feat: infobox com spotlight e edição magnética no artigo"`
@@ -1016,7 +1016,7 @@ Run: `npm run test` → 16 pass.
 - Consumes: `SpotlightCard` (+ `Magnet` se usado), `useReducedMotion`.
 - Produces: lista de artigos em cards spotlight (navegação real via `Link`), título inalterado, estados vazios PT-BR mantidos. O gating de reduced-motion é do próprio `SpotlightCard` (guard interno da Task 2) — **não** declarar `useReducedMotion` nesses arquivos (ficaria órfão e quebraria `noUnusedLocals`).
 
-- [ ] **Step 1: Editar `src/pages/CategoryPage.tsx`**
+- [x] **Step 1: Editar `src/pages/CategoryPage.tsx`**
 
 ```tsx
 import { Link, useParams } from 'react-router-dom'
@@ -1061,7 +1061,7 @@ function CategoryPage() {
 export default CategoryPage
 ```
 
-- [ ] **Step 2: Editar a lista de resultados de `src/pages/SearchPage.tsx`**
+- [x] **Step 2: Editar a lista de resultados de `src/pages/SearchPage.tsx`**
 
 Adicionar apenas o import do SpotlightCard:
 
@@ -1088,13 +1088,13 @@ No corpo, substituir o `<ul>` de resultados por:
 
 (Nada mais muda no SearchPage. Não adicionar `useReducedMotion` aqui: não haveria nenhum uso e `noUnusedLocals` quebraria o build — o `SpotlightCard` já ignora o hover glow sob reduced-motion via guard interno.)
 
-- [ ] **Step 3: Verificar lint/build/test**
+- [x] **Step 3: Verificar lint/build/test**
 
 Run: `npm run lint` → exit 0.
 Run: `npm run build` → exit 0.
 Run: `npm run test` → 16 pass.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 `git add src/pages/CategoryPage.tsx src/pages/SearchPage.tsx`
 `git commit -m "feat: cards com spotlight nas páginas de categoria e busca"`
@@ -1111,13 +1111,13 @@ Run: `npm run test` → 16 pass.
 - Consumes: tudo das Tasks 1-8.
 - Produces: MVP do redesign verificado; checklist da spec atendido; commits finais.
 
-- [ ] **Step 1: Suíte completa**
+- [x] **Step 1: Suíte completa**
 
 Run: `npm run lint` → exit 0.
 Run: `npm run test` → 16 pass.
 Run: `npm run build` → exit 0.
 
-- [ ] **Step 2: Smoke test do dev server**
+- [x] **Step 2: Smoke test do dev server**
 
 Run (PowerShell, e depois encerrar o processo quando terminar):
 
@@ -1130,15 +1130,15 @@ Stop-Process -Id $p.Id
 
 Expected: `StatusCode` = 200.
 
-- [ ] **Step 3: Checklist manual da spec (documentado ao usuário)**
+- [x] **Step 3: Checklist manual da spec (documentado ao usuário)**
 
 Não é executado pelo agente (precisa de navegador). Listar para o usuário no relatório final conforme a seção "Verificação" da spec: (1) fundo Particles calmo em todas as páginas; (2) hero anima com gradiente, stats contam, CTAs magnéticos; (3) spotlight segue o mouse e cliques navegam; (4) infobox com spotlight; (5) modo claro legível com hero escuro impactante; (6) reduced-motion → tudo estático e visível; (7) aba em segundo plano → fundo pausado; (8) editor limpo e utilizável.
 
-- [ ] **Step 4: Corrigir divergências detectáveis**
+- [x] **Step 4: Corrigir divergências detectáveis**
 
 Se lint/build/test apontarem algo (ex.: `noUnusedLocals` em algum import que a instrução não usou), corrigir em edição mínima e repetir o Step 1.
 
-- [ ] **Step 5: Atualizar o plano (checks) e commit final**
+- [x] **Step 5: Atualizar o plano (checks) e commit final**
 
 Marcar todas as tarefas deste plano como `- [x]` e commitar:
 
