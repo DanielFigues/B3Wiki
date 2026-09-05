@@ -149,6 +149,8 @@
 
 .hero-dark h1.split-parent {
   white-space: nowrap;
+  overflow-wrap: normal !important;
+  word-wrap: normal !important;
 }
 
 .hero-dark h1.split-parent .split-char {
