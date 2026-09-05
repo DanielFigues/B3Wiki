@@ -1,5 +1,6 @@
 import { Link, useSearchParams } from 'react-router-dom'
 import { useWiki } from '../store/index'
+import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
 
 function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -41,10 +42,12 @@ function SearchPage() {
         <ul className="mt-4 space-y-3">
           {results.map((article) => (
             <li key={article.slug}>
-              <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="text-accent hover:underline">
-                {article.title}
+              <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="block hover:no-underline">
+                <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="p-4 text-left">
+                  <h2 className="font-semibold text-ink-heading">{article.title}</h2>
+                  <p className="mt-1 text-sm text-ink-muted">{article.summary}</p>
+                </SpotlightCard>
               </Link>
-              <p className="text-sm text-ink-muted">{article.summary}</p>
             </li>
           ))}
         </ul>

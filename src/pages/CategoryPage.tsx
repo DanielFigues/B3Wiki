@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { useWiki } from '../store/index'
 import { slugify } from '../utils/slug'
+import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
 
 function CategoryPage() {
   const { categoria = '' } = useParams()
@@ -22,10 +23,12 @@ function CategoryPage() {
         <ul className="mt-4 space-y-3">
           {items.map((article) => (
             <li key={article.slug}>
-              <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="text-accent hover:underline">
-                {article.title}
+              <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="block hover:no-underline">
+                <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="p-4 text-left">
+                  <h2 className="font-semibold text-ink-heading">{article.title}</h2>
+                  <p className="mt-1 text-sm text-ink-muted">{article.summary}</p>
+                </SpotlightCard>
               </Link>
-              <p className="text-sm text-ink-muted">{article.summary}</p>
             </li>
           ))}
         </ul>
