@@ -29,6 +29,10 @@ function SectionTitle({ reduceMotion, children }: { reduceMotion: boolean; child
   )
 }
 
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })
+}
+
 function Home() {
   const { config, articles } = useWiki()
   const reduceMotion = useReducedMotion()
@@ -38,7 +42,7 @@ function Home() {
 
   const recent = Object.values(articles)
     .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
-    .slice(0, 5)
+    .slice(0, 6)
 
   const ctaExplorar = (
     <a
@@ -59,7 +63,7 @@ function Home() {
   )
 
   return (
-    <div className="space-y-10">
+    <div>
       <section className="hero-dark relative flex min-h-screen items-center justify-center overflow-hidden px-6 py-24 text-center sm:px-12">
         {!reduceMotion && (
           <div className="absolute inset-0">
@@ -125,18 +129,23 @@ function Home() {
         </div>
       </section>
 
+      <div className="mx-auto max-w-5xl space-y-14 px-6 py-16">
       <section id="artigos" className="scroll-mt-6">
         <SectionTitle reduceMotion={reduceMotion}>Artigos recentes</SectionTitle>
         {recent.length === 0 ? (
           <p className="text-ink-muted">Nenhum artigo ainda. Crie o primeiro no editor.</p>
         ) : reduceMotion ? (
-          <ul className="mt-3 space-y-3">
+          <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {recent.map((article) => (
               <li key={article.slug}>
-                <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="block hover:no-underline">
-                  <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="p-4 text-left">
+                <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="block h-full hover:no-underline">
+                  <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="h-full p-4 text-left">
                     <h3 className="font-semibold text-ink-heading">{article.title}</h3>
                     <p className="mt-1 text-sm text-ink-muted">{article.summary}</p>
+                    <p className="mt-3 text-xs text-ink-muted">
+                      <span className="rounded bg-surface px-1.5 py-0.5 text-accent">{article.categories[0]}</span>
+                      <span className="ml-2">{formatDate(article.updatedAt)}</span>
+                    </p>
                   </SpotlightCard>
                 </Link>
               </li>
@@ -144,13 +153,17 @@ function Home() {
           </ul>
         ) : (
           <FadeContent duration={700}>
-            <ul className="mt-3 space-y-3">
+            <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {recent.map((article) => (
                 <li key={article.slug}>
-                  <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="block hover:no-underline">
-                    <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="p-4 text-left">
+                  <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="block h-full hover:no-underline">
+                    <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="h-full p-4 text-left">
                       <h3 className="font-semibold text-ink-heading">{article.title}</h3>
                       <p className="mt-1 text-sm text-ink-muted">{article.summary}</p>
+                      <p className="mt-3 text-xs text-ink-muted">
+                        <span className="rounded bg-surface px-1.5 py-0.5 text-accent">{article.categories[0]}</span>
+                        <span className="ml-2">{formatDate(article.updatedAt)}</span>
+                      </p>
                     </SpotlightCard>
                   </Link>
                 </li>
@@ -163,7 +176,7 @@ function Home() {
       <section>
         <SectionTitle reduceMotion={reduceMotion}>Categorias</SectionTitle>
         {reduceMotion ? (
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {config.categories.map((category) => {
               const count = Object.values(articles).filter((article) =>
                 article.categories.includes(category.title),
@@ -186,7 +199,7 @@ function Home() {
           </div>
         ) : (
           <FadeContent duration={700}>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {config.categories.map((category) => {
                 const count = Object.values(articles).filter((article) =>
                   article.categories.includes(category.title),
@@ -210,6 +223,7 @@ function Home() {
           </FadeContent>
         )}
       </section>
+      </div>
     </div>
   )
 }

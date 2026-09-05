@@ -2,12 +2,20 @@ import { Link } from 'react-router-dom'
 import { useWiki } from '../store/index'
 import { slugify } from '../utils/slug'
 
-function Sidebar() {
+interface SidebarProps {
+  collapsed?: boolean
+}
+
+function Sidebar({ collapsed = false }: SidebarProps) {
   const { config } = useWiki()
 
   return (
-    <aside className="w-56 shrink-0 border-r border-line bg-surface">
-      <nav aria-label="Navegação da wiki" className="p-4">
+    <aside
+      className={`shrink-0 border-r border-line bg-surface transition-[width] duration-300 ${
+        collapsed ? 'w-0 overflow-hidden border-r-0' : 'w-56'
+      }`}
+    >
+      <nav aria-label="Navegação da wiki" className="w-56 p-4">
         {config.categories.map((category) => (
           <section key={category.title} className="mb-5">
             <Link
