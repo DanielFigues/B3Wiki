@@ -508,11 +508,11 @@ import { useWiki } from '../store/index'
 function Layout() {
   const { config } = useWiki()
 
-  return (
+return (
     <div className="relative isolate min-h-svh bg-paper font-sans text-ink">
       <AnimatedBackground />
+      <Header siteName={config.name} />
       <div className="relative mx-auto flex max-w-6xl">
-        <Header siteName={config.name} />
         <Sidebar />
         <main className="min-w-0 flex-1 px-6 py-6">
           <Outlet />
@@ -520,10 +520,9 @@ function Layout() {
       </div>
     </div>
   )
-}
-
-export default Layout
 ```
+
+O `<Header>` permanece em largura total (raiz do Layout, como no app atual) — a T3 apenas acrescenta `AnimatedBackground` e `isolate`. Movê-lo para dentro da linha `max-w-6xl` quebraria o layout da top bar (Ruling 5).
 
 Observação: `-z-10` no painel fixo mantém o canvas ATRÁS do conteúdo (acima do fundo da página). O `relative` no root/wrappers garante empilhamento previsível.
 
