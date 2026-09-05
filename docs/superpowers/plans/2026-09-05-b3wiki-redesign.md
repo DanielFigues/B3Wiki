@@ -91,6 +91,10 @@ import './index.css'
     --color-glow: rgba(124, 58, 237, 0.22);
     --color-code: #eef1f7;
   }
+
+  .hero-dark {
+    background-color: #0b0e14;
+  }
 }
 
 @layer base {
@@ -135,7 +139,7 @@ import './index.css'
   }
 
   .hero-dark {
-    background-color: transparent;
+    background-color: #0b0e14;
     background-image: radial-gradient(
         1000px 480px at 50% -10%,
         var(--color-glow),
@@ -505,7 +509,7 @@ function Layout() {
   const { config } = useWiki()
 
   return (
-    <div className="relative min-h-svh bg-paper font-sans text-ink">
+    <div className="relative isolate min-h-svh bg-paper font-sans text-ink">
       <AnimatedBackground />
       <div className="relative mx-auto flex max-w-6xl">
         <Header siteName={config.name} />
@@ -647,8 +651,8 @@ function Home() {
             </>
           ) : (
             <>
-              <Magnet strength={3}>{ctaExplorar}</Magnet>
-              <Magnet strength={3}>{ctaCriar}</Magnet>
+              <Magnet magnetStrength={3}>{ctaExplorar}</Magnet>
+              <Magnet magnetStrength={3}>{ctaCriar}</Magnet>
             </>
           )}
         </div>
@@ -881,7 +885,7 @@ function Header({ siteName }: HeaderProps) {
           {siteName}
         </Link>
         <SearchBar className="max-w-sm flex-1" />
-        {reduceMotion ? randomButton : <Magnet strength={4}>{randomButton}</Magnet>}
+        {reduceMotion ? randomButton : <Magnet magnetStrength={4}>{randomButton}</Magnet>}
       </div>
     </header>
   )
@@ -946,7 +950,7 @@ function ArticleView() {
         <p className="mt-2 text-ink-muted">
           Não existe nenhum artigo com o endereço “{slug}”.
         </p>
-        {reduceMotion ? criar : <Magnet strength={4}>{criar}</Magnet>}
+        {reduceMotion ? criar : <Magnet magnetStrength={4}>{criar}</Magnet>}
       </div>
     )
   }
@@ -964,7 +968,7 @@ function ArticleView() {
     <article>
       <div className="flex items-center justify-between gap-4 border-b border-line pb-3">
         <h1 className="text-3xl font-bold text-ink-heading">{article.title}</h1>
-        {reduceMotion ? editar : <Magnet strength={4}>{editar}</Magnet>}
+        {reduceMotion ? editar : <Magnet magnetStrength={4}>{editar}</Magnet>}
       </div>
 
       {article.summary && <p className="mt-3 text-ink-muted">{article.summary}</p>}
@@ -1007,8 +1011,8 @@ Run: `npm run test` → 16 pass.
 - Modify: `src/pages/CategoryPage.tsx`, `src/pages/SearchPage.tsx`
 
 **Interfaces:**
-- Consumes: `SpotlightCard`, `Magnet`, `useReducedMotion`.
-- Produces: lista de artigos em cards spotlight (navegação real via `Link`), título inalterado, estados vazios PT-BR mantidos.
+- Consumes: `SpotlightCard` (+ `Magnet` se usado), `useReducedMotion`.
+- Produces: lista de artigos em cards spotlight (navegação real via `Link`), título inalterado, estados vazios PT-BR mantidos. O gating de reduced-motion é do próprio `SpotlightCard` (guard interno da Task 2) — **não** declarar `useReducedMotion` nesses arquivos (ficaria órfão e quebraria `noUnusedLocals`).
 
 - [ ] **Step 1: Editar `src/pages/CategoryPage.tsx`**
 
@@ -1017,12 +1021,10 @@ import { Link, useParams } from 'react-router-dom'
 import { useWiki } from '../store/index'
 import { slugify } from '../utils/slug'
 import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
-import { useReducedMotion } from '../hooks/useReducedMotion'
 
 function CategoryPage() {
   const { categoria = '' } = useParams()
   const { config, articles } = useWiki()
-  const reduceMotion = useReducedMotion()
 
   const matched = config.categories.find((category) => slugify(category.title) === categoria)
   const title = matched?.title ?? categoria
@@ -1059,14 +1061,13 @@ export default CategoryPage
 
 - [ ] **Step 2: Editar a lista de resultados de `src/pages/SearchPage.tsx`**
 
-Adicionar imports:
+Adicionar apenas o import do SpotlightCard:
 
 ```tsx
 import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
-import { useReducedMotion } from '../hooks/useReducedMotion'
 ```
 
-No corpo, ler `const reduceMotion = useReducedMotion()` e substituir o `<ul>` de resultados por:
+No corpo, substituir o `<ul>` de resultados por:
 
 ```tsx
 <ul className="mt-4 space-y-3">
@@ -1083,7 +1084,7 @@ No corpo, ler `const reduceMotion = useReducedMotion()` e substituir o `<ul>` de
 </ul>
 ```
 
-(Nada mais muda no SearchPage; `reduceMotion` garante que a importação não fique órfã — se não for usada no arquivo, remover o import para não quebrar `noUnusedLocals`.)
+(Nada mais muda no SearchPage. Não adicionar `useReducedMotion` aqui: não haveria nenhum uso e `noUnusedLocals` quebraria o build — o `SpotlightCard` já ignora o hover glow sob reduced-motion via guard interno.)
 
 - [ ] **Step 3: Verificar lint/build/test**
 
