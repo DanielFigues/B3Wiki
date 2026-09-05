@@ -6,6 +6,7 @@ import SplitText from '../components/reactbits/TextAnimations/SplitText/SplitTex
 import BlurText from '../components/reactbits/TextAnimations/BlurText/BlurText'
 import CountUp from '../components/reactbits/TextAnimations/CountUp/CountUp'
 
+import Particles from '../components/reactbits/Backgrounds/Particles/Particles'
 import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
 import ShinyText from '../components/reactbits/TextAnimations/ShinyText/ShinyText'
 import FadeContent from '../components/reactbits/Animations/FadeContent/FadeContent'
@@ -59,50 +60,67 @@ function Home() {
 
   return (
     <div className="space-y-10">
-      <section className="hero-dark px-6 py-14 text-center sm:px-12 sm:py-20">
-        {reduceMotion ? (
-          <h1 className="text-4xl font-bold text-ink-heading sm:text-6xl">{config.name}</h1>
-        ) : (
-          <SplitText
-            text={config.name}
-            tag="h1"
-            splitType="words, chars"
-            delay={40}
-            duration={1}
-            className="text-gradient-animated text-4xl font-bold sm:text-6xl"
-          />
+      <section className="hero-dark relative flex min-h-screen items-center justify-center overflow-hidden px-6 py-24 text-center sm:px-12">
+        {!reduceMotion && (
+          <div className="absolute inset-0">
+            <Particles
+              particleCount={250}
+              particleSpread={14}
+              speed={0.1}
+              particleColors={['#8b5cf6', '#a78bfa', '#6d28d9']}
+              moveParticlesOnHover
+              particleHoverFactor={1.2}
+              alphaParticles
+              particleBaseSize={90}
+            />
+          </div>
         )}
 
-        {reduceMotion ? (
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-ink-muted">{config.tagline}</p>
-        ) : (
-          <BlurText
-            text={config.tagline}
-            animateBy="words"
-            delay={60}
-            direction="top"
-            className="mx-auto mt-4 max-w-2xl text-lg text-ink-muted"
-          />
-        )}
+        <div className="relative z-10">
+          {reduceMotion ? (
+            <h1 className="text-4xl font-bold text-ink-heading sm:text-6xl">{config.name}</h1>
+          ) : (
+            <SplitText
+              text={config.name}
+              tag="h1"
+              splitType="words, chars"
+              delay={40}
+              duration={1}
+              className="text-gradient-animated text-4xl font-bold sm:text-6xl"
+            />
+          )}
 
-        <div className="mt-10 flex items-center justify-center gap-12">
-          <div>
-            <p className="text-3xl font-bold text-accent">
-              {reduceMotion ? articleCount : <CountUp to={articleCount} duration={1.6} />}
-            </p>
-            <p className="text-sm text-ink-muted">artigos</p>
-          </div>
-          <div>
-            <p className="text-3xl font-bold text-accent-2">
-              {reduceMotion ? categoryCount : <CountUp to={categoryCount} duration={1.6} />}
-            </p>
-            <p className="text-sm text-ink-muted">categorias</p>
-          </div>
-        </div>
+          {reduceMotion ? (
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-ink-muted">{config.tagline}</p>
+          ) : (
+            <BlurText
+              text={config.tagline}
+              animateBy="words"
+              delay={60}
+              direction="top"
+              className="mx-auto mt-4 max-w-2xl text-lg text-ink-muted"
+            />
+          )}
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          {ctaExplorar}
-          {ctaCriar}
+          <div className="mt-10 flex items-center justify-center gap-12">
+            <div>
+              <p className="text-3xl font-bold text-accent">
+                {reduceMotion ? articleCount : <CountUp to={articleCount} duration={1.6} />}
+              </p>
+              <p className="text-sm text-ink-muted">artigos</p>
+            </div>
+            <div>
+              <p className="text-3xl font-bold text-accent-2">
+                {reduceMotion ? categoryCount : <CountUp to={categoryCount} duration={1.6} />}
+              </p>
+              <p className="text-sm text-ink-muted">categorias</p>
+            </div>
+          </div>
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            {ctaExplorar}
+            {ctaCriar}
+          </div>
         </div>
       </section>
 
