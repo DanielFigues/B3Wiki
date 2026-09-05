@@ -10,8 +10,8 @@ function Layout() {
   return (
     <div className="relative isolate min-h-svh bg-paper font-sans text-ink">
       <AnimatedBackground />
+      <Header siteName={config.name} />
       <div className="relative mx-auto flex max-w-6xl">
-        <Header siteName={config.name} />
         <Sidebar />
         <main className="min-w-0 flex-1 px-6 py-6">
           <Outlet />
