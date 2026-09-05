@@ -93,13 +93,14 @@ function Home() {
           {reduceMotion ? (
             <p className="mx-auto mt-4 max-w-2xl text-lg text-ink-muted">{config.tagline}</p>
           ) : (
-            <BlurText
-              text={config.tagline}
-              animateBy="words"
-              delay={60}
-              direction="top"
-              className="mx-auto mt-4 max-w-2xl text-lg text-ink-muted"
-            />
+<BlurText
+            text={config.tagline}
+            animateBy="words"
+            delay={60}
+            direction="top"
+            animationFrom={{ filter: 'blur(8px)', opacity: 0, y: -16 }}
+            className="mx-auto mt-4 max-w-2xl text-lg text-ink-muted"
+          />
           )}
 
           <div className="mt-10 flex items-center justify-center gap-12">
