@@ -1,82 +1,105 @@
-:root {
-  --text: #202122;
-  --text-muted: #6a6a72;
-  --text-h: #101418;
-  --bg: #ffffff;
-  --bg-subtle: #f6f6f7;
-  --border: #d9d9de;
-  --accent: #2a6fb0;
-  --accent-bg: rgba(42, 111, 176, 0.08);
-  --code-bg: #f2f2f3;
-  --shadow: rgba(0, 0, 0, 0.12) 0 2px 8px;
+@import "tailwindcss";
 
-  --sans: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-  --mono: ui-monospace, Consolas, 'Courier New', monospace;
+@theme {
+  --font-sans: system-ui, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-mono: ui-monospace, Consolas, "Courier New", monospace;
 
-  font: 16px/150% var(--sans);
-  letter-spacing: 0.1px;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --color-paper: #ffffff;
+  --color-surface: #f6f6f7;
+  --color-line: #d9d9de;
+  --color-ink: #202122;
+  --color-ink-muted: #6a6a72;
+  --color-ink-heading: #101418;
+  --color-accent: #2a6fb0;
+  --color-accent-contrast: #ffffff;
+  --color-accent-soft: rgba(42, 111, 176, 0.08);
+  --color-code: #f2f2f3;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #dadbde;
-    --text-muted: #9a9ca3;
-    --text-h: #f3f4f6;
-    --bg: #191a1f;
-    --bg-subtle: #232428;
-    --border: #32343c;
-    --accent: #6ea8d8;
-    --accent-bg: rgba(110, 168, 216, 0.12);
-    --code-bg: #26272d;
+    --color-paper: #191a1f;
+    --color-surface: #232428;
+    --color-line: #32343c;
+    --color-ink: #dadbde;
+    --color-ink-muted: #9a9ca3;
+    --color-ink-heading: #f3f4f6;
+    --color-accent: #6ea8d8;
+    --color-accent-soft: rgba(110, 168, 216, 0.12);
+    --color-code: #26272d;
   }
 }
 
-body {
-  margin: 0;
-  min-width: 320px;
+@layer base {
+  body {
+    @apply bg-paper font-sans text-ink;
+    min-width: 320px;
+  }
+
+  a {
+    @apply text-accent;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-semibold text-ink-heading;
+    line-height: 1.2;
+  }
 }
 
-#root {
-  min-height: 100svh;
-}
+@layer components {
+  .markdown > :first-child {
+    margin-top: 0;
+  }
 
-a {
-  color: var(--accent);
-  text-decoration: none;
-}
+  .markdown h1,
+  .markdown h2,
+  .markdown h3 {
+    @apply mb-2 mt-6 font-semibold text-ink-heading;
+  }
 
-a:hover {
-  text-decoration: underline;
-}
+  .markdown h1 {
+    @apply text-2xl;
+  }
 
-h1,
-h2,
-h3 {
-  color: var(--text-h);
-  font-weight: 600;
-  line-height: 1.2;
-}
+  .markdown h2 {
+    @apply text-xl;
+  }
 
-p {
-  margin: 0 0 12px;
-}
+  .markdown h3 {
+    @apply text-lg;
+  }
 
-button {
-  font: inherit;
-  cursor: pointer;
-  border: 1px solid var(--border);
-  background: var(--bg-subtle);
-  color: var(--text);
-  border-radius: 4px;
-  padding: 6px 14px;
-}
+  .markdown p {
+    @apply mb-3;
+  }
 
-button:hover {
-  border-color: var(--accent);
+  .markdown ul {
+    @apply mb-3 list-disc pl-6;
+  }
+
+  .markdown ol {
+    @apply mb-3 list-decimal pl-6;
+  }
+
+  .markdown blockquote {
+    @apply mb-3 border-l-4 border-line pl-4 text-ink-muted;
+  }
+
+  .markdown code {
+    @apply rounded bg-code px-1 py-0.5 font-mono text-sm;
+  }
+
+  .markdown pre {
+    @apply mb-3 overflow-x-auto rounded border border-line bg-code p-3;
+  }
+
+  .markdown pre code {
+    @apply bg-transparent p-0;
+  }
+
+  .markdown a {
+    @apply text-accent hover:underline;
+  }
 }
