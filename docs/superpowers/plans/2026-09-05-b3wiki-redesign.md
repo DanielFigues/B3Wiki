@@ -700,11 +700,11 @@ import ShinyText from '../components/reactbits/TextAnimations/ShinyText/ShinyTex
 import FadeContent from '../components/reactbits/Animations/FadeContent/FadeContent'
 ```
 
-Dentro de `Home`, helper de título de seção:
+Helper de título de seção no escopo do módulo (fora de `Home` — o oxlint `react(static-components)` rejeita componente definido dentro de outro componente; Ruling 6):
 
 ```tsx
-const SectionTitle = ({ children }: { children: string }) =>
-  reduceMotion ? (
+function SectionTitle({ reduceMotion, children }: { reduceMotion: boolean; children: string }) {
+  return reduceMotion ? (
     <h2 className="text-xl font-semibold text-ink-heading">{children}</h2>
   ) : (
     <h2 className="text-xl font-semibold text-ink-heading">
@@ -719,13 +719,16 @@ const SectionTitle = ({ children }: { children: string }) =>
       />
     </h2>
   )
+}
 ```
+
+Os pontos de uso passam a `<SectionTitle reduceMotion={reduceMotion}>…</SectionTitle>`.
 
 - [ ] **Step 2: Reescrever a seção "Artigos recentes"**
 
 ```tsx
 <section id="artigos" className="scroll-mt-6">
-  <SectionTitle>Artigos recentes</SectionTitle>
+  <SectionTitle reduceMotion={reduceMotion}>Artigos recentes</SectionTitle>
   {recent.length === 0 ? (
     <p className="text-ink-muted">Nenhum artigo ainda. Crie o primeiro no editor.</p>
   ) : reduceMotion ? (
@@ -764,7 +767,7 @@ const SectionTitle = ({ children }: { children: string }) =>
 
 ```tsx
 <section>
-  <SectionTitle>Categorias</SectionTitle>
+  <SectionTitle reduceMotion={reduceMotion}>Categorias</SectionTitle>
   {reduceMotion ? (
     <div className="mt-3 grid gap-3 sm:grid-cols-2">
       {config.categories.map((category) => {
