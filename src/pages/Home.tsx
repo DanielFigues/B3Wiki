@@ -10,6 +10,24 @@ import SpotlightCard from '../components/reactbits/Components/SpotlightCard/Spot
 import ShinyText from '../components/reactbits/TextAnimations/ShinyText/ShinyText'
 import FadeContent from '../components/reactbits/Animations/FadeContent/FadeContent'
 
+function SectionTitle({ reduceMotion, children }: { reduceMotion: boolean; children: string }) {
+  return reduceMotion ? (
+    <h2 className="text-xl font-semibold text-ink-heading">{children}</h2>
+  ) : (
+    <h2 className="text-xl font-semibold text-ink-heading">
+      <ShinyText
+        text={children}
+        speed={3}
+        delay={0.6}
+        spread={100}
+        color="var(--color-ink-heading)"
+        shineColor="var(--color-accent)"
+        pauseOnHover
+      />
+    </h2>
+  )
+}
+
 function Home() {
   const { config, articles } = useWiki()
   const reduceMotion = useReducedMotion()
@@ -38,23 +56,6 @@ function Home() {
       Criar artigo
     </Link>
   )
-
-  const SectionTitle = ({ children }: { children: string }) =>
-    reduceMotion ? (
-      <h2 className="text-xl font-semibold text-ink-heading">{children}</h2>
-    ) : (
-      <h2 className="text-xl font-semibold text-ink-heading">
-        <ShinyText
-          text={children}
-          speed={3}
-          delay={0.6}
-          spread={100}
-          color="var(--color-ink-heading)"
-          shineColor="var(--color-accent)"
-          pauseOnHover
-        />
-      </h2>
-    )
 
   return (
     <div className="space-y-10">
@@ -115,7 +116,7 @@ function Home() {
       </section>
 
       <section id="artigos" className="scroll-mt-6">
-        <SectionTitle>Artigos recentes</SectionTitle>
+        <SectionTitle reduceMotion={reduceMotion}>Artigos recentes</SectionTitle>
         {recent.length === 0 ? (
           <p className="text-ink-muted">Nenhum artigo ainda. Crie o primeiro no editor.</p>
         ) : reduceMotion ? (
@@ -150,7 +151,7 @@ function Home() {
       </section>
 
       <section>
-        <SectionTitle>Categorias</SectionTitle>
+        <SectionTitle reduceMotion={reduceMotion}>Categorias</SectionTitle>
         {reduceMotion ? (
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             {config.categories.map((category) => {
