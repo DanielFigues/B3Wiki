@@ -151,6 +151,7 @@
   white-space: nowrap;
   overflow-wrap: normal !important;
   word-wrap: normal !important;
+  will-change: auto !important;
 }
 
 .hero-dark h1.split-parent .split-char {
