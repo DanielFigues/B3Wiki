@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router-dom'
+import AnimatedBackground from './AnimatedBackground'
 import Header from './Header'
 import Sidebar from './Sidebar'
 import { useWiki } from '../store/index'
@@ -7,9 +8,10 @@ function Layout() {
   const { config } = useWiki()
 
   return (
-    <div className="min-h-svh bg-paper font-sans text-ink">
-      <Header siteName={config.name} />
-      <div className="mx-auto flex max-w-6xl">
+    <div className="relative isolate min-h-svh bg-paper font-sans text-ink">
+      <AnimatedBackground />
+      <div className="relative mx-auto flex max-w-6xl">
+        <Header siteName={config.name} />
         <Sidebar />
         <main className="min-w-0 flex-1 px-6 py-6">
           <Outlet />
