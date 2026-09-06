@@ -1,6 +1,6 @@
 import type { Article, WikiConfig } from '../types/index'
 
-export const SEED_VERSION = 3
+export const SEED_VERSION = 4
 
 export const STORAGE_KEYS = {
   articles: 'articles',
@@ -13,6 +13,7 @@ export const seedConfig: WikiConfig = {
   tagline: 'A enciclopédia da comunidade.',
   description:
     'Bem-vindo ao B3Wiki — uma enciclopédia aberta construída pela comunidade. Aqui você encontra guias, referências e curiosidades organizadas por categorias. Explore os artigos recentes, busque por um tema ou contribua criando uma nova página.',
+  featured: ['introducao', 'react', 'como-editar'],
   categories: [
     {
       title: 'Principal',

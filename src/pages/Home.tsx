@@ -135,6 +135,18 @@ function Home() {
         </section>
       )}
 
+      {config.featured && config.featured.length > 0 && (
+        <section>
+          <SectionTitle reduceMotion={reduceMotion}>Destaques</SectionTitle>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {config.featured.map((featuredSlug) => {
+              const article = articles[featuredSlug]
+              return article ? <ArticleCard key={featuredSlug} article={article} /> : null
+            })}
+          </div>
+        </section>
+      )}
+
       <section id="artigos" className="scroll-mt-6">
         <SectionTitle reduceMotion={reduceMotion}>Artigos recentes</SectionTitle>
         {recent.length === 0 ? (
