@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import SearchBar from './SearchBar'
 import { useWiki } from '../store/index'
@@ -15,7 +16,16 @@ function Header({ siteName, sidebarCollapsed, onToggleSidebar }: HeaderProps) {
   const { pathname } = useLocation()
   const isLanding = pathname === '/'
 
-  if (isLanding) return null
+  const [scrolled, setScrolled] = useState(false)
+  useEffect(() => {
+    if (!isLanding) return
+    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.66)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [isLanding])
+
+  if (isLanding && !scrolled) return null
 
   const handleRandom = () => {
     const slugs = Object.keys(articles)
@@ -68,9 +78,9 @@ function Header({ siteName, sidebarCollapsed, onToggleSidebar }: HeaderProps) {
   )
 
   return (
-    <header className="bg-transparent">
+    <header className={isLanding ? 'fixed inset-x-0 top-0 z-40 bg-transparent' : 'bg-transparent'}>
       <div className="flex items-center gap-3 px-4 py-3">
-        {toggleSidebarButton}
+        {!isLanding && toggleSidebarButton}
         <Link
           to="/"
           className="shrink-0 text-xl font-semibold text-ink-heading transition-shadow duration-300 hover:drop-shadow-[0_0_10px_var(--color-glow)] hover:no-underline"
