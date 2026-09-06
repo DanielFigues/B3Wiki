@@ -48,7 +48,7 @@ function Layout() {
               onToggleSidebar={() => setSidebarCollapsed((c) => !c)}
             />
           )}
-          <div className={isLanding ? 'p-0' : 'px-6 pb-6'}>
+          <div className={isLanding ? 'p-0' : 'px-6 py-6'}>
             <Outlet />
           </div>
         </main>
