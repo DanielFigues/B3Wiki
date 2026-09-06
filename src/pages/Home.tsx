@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom'
 import { useWiki } from '../store/index'
 import { slugify } from '../utils/slug'
 import { useReducedMotion } from '../hooks/useReducedMotion'
-import SplitText from '../components/reactbits/TextAnimations/SplitText/SplitText'
 import BlurText from '../components/reactbits/TextAnimations/BlurText/BlurText'
 import CountUp from '../components/reactbits/TextAnimations/CountUp/CountUp'
+import ParticleText from '../components/reactbits/TextAnimations/ParticleText/ParticleText'
 
 import Particles from '../components/reactbits/Backgrounds/Particles/Particles'
 import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
@@ -82,14 +82,20 @@ function Home() {
           {reduceMotion ? (
             <h1 className="text-4xl font-bold text-ink-heading sm:text-6xl">{config.name}</h1>
           ) : (
-            <SplitText
-              text={config.name}
-              tag="h1"
-              splitType="words, chars"
-              delay={40}
-              duration={1}
-              className="text-gradient-animated text-4xl font-bold sm:text-6xl"
-            />
+            <div className="mx-auto h-40 w-full max-w-4xl sm:h-44">
+              <ParticleText
+                text={config.name}
+                color="#fafaf9"
+                highlightColor="#8b5cf6"
+                fontSize="clamp(2.5rem, 8vw, 4.5rem)"
+                fontWeight={800}
+                density={4}
+                particleSize={1.8}
+                scatter={140}
+                gatherDuration={1800}
+                glow
+              />
+            </div>
           )}
 
           {reduceMotion ? (
