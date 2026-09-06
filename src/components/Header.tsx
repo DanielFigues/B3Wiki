@@ -79,7 +79,7 @@ function Header({ siteName, sidebarCollapsed, onToggleSidebar }: HeaderProps) {
 
   return (
     <header
-      className={`backdrop-blur-xl ${isLanding ? 'fixed inset-x-0 top-0 z-40' : ''} border-b border-line/40 bg-surface/50`}
+      className={`header-slide-in backdrop-blur-xl ${isLanding ? 'fixed inset-x-0 top-0 z-40' : ''} border-b border-line/40 bg-surface/50`}
     >
       <div className="flex items-center gap-3 px-4 py-3">
         {!isLanding && toggleSidebarButton}

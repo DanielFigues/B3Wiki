@@ -168,6 +168,21 @@
   animation: text-gradient-shift 6s linear infinite;
 }
 
+@keyframes header-slide-in {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.header-slide-in {
+  animation: header-slide-in 0.35s ease-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
