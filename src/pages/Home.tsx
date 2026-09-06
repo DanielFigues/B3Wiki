@@ -8,6 +8,7 @@ import ParticleText from '../components/reactbits/TextAnimations/ParticleText/Pa
 
 import Particles from '../components/reactbits/Backgrounds/Particles/Particles'
 import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
+import BorderGlow from '../components/reactbits/Components/BorderGlow/BorderGlow'
 import ShinyText from '../components/reactbits/TextAnimations/ShinyText/ShinyText'
 import FadeContent from '../components/reactbits/Animations/FadeContent/FadeContent'
 import ArticleCard from '../components/ArticleCard'
@@ -43,21 +44,25 @@ function Home() {
     .slice(0, 6)
 
   const ctaExplorar = (
-    <a
-      href="#artigos"
-      className="rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-accent-contrast hover:opacity-90"
-    >
-      Explorar wiki
-    </a>
+    <BorderGlow animated backgroundColor="rgba(158, 116, 246, 0.14)" borderRadius={12} glowRadius={28} colors={['#c084fc', '#a78bfa', '#8b5cf6']}>
+      <a
+        href="#artigos"
+        className="block rounded-[11px] bg-accent/20 px-5 py-2.5 text-sm font-semibold text-accent-contrast backdrop-blur-md"
+      >
+        Explorar wiki
+      </a>
+    </BorderGlow>
   )
 
   const ctaCriar = (
-    <Link
-      to="/editor"
-      className="rounded-lg border border-line bg-surface px-5 py-2.5 text-sm font-semibold text-ink hover:border-accent"
-    >
-      Criar artigo
-    </Link>
+    <BorderGlow animated backgroundColor="rgba(24, 22, 33, 0.45)" borderRadius={12} glowRadius={28} colors={['#8b5cf6', '#38bdf8', '#a78bfa']}>
+      <Link
+        to="/editor"
+        className="block rounded-[11px] border border-line/60 bg-surface/45 px-5 py-2.5 text-sm font-semibold text-ink backdrop-blur-md hover:border-accent"
+      >
+        Criar artigo
+      </Link>
+    </BorderGlow>
   )
 
   return (
