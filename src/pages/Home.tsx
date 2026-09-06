@@ -78,16 +78,16 @@ function Home() {
           </div>
         )}
 
-        <div className="relative z-10">
+        <div className="relative z-10 w-full">
           {reduceMotion ? (
             <h1 className="text-4xl font-bold text-ink-heading sm:text-6xl">{config.name}</h1>
           ) : (
-            <div className="mx-auto h-40 w-full max-w-4xl sm:h-44">
+            <div className="mx-auto h-[22rem] w-full max-w-4xl sm:h-[26rem]">
               <ParticleText
                 text={config.name}
                 color="#fafaf9"
                 highlightColor="#8b5cf6"
-                fontSize="clamp(3rem, 10vw, 6.5rem)"
+                fontSize="clamp(9rem, 30vw, 19.5rem)"
                 fontWeight={800}
                 density={4}
                 particleSize={1.8}
