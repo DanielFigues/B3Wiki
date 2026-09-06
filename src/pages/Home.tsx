@@ -128,6 +128,13 @@ function Home() {
       </section>
 
       <div className="mx-auto max-w-5xl space-y-14 px-6 py-16">
+      {config.description && (
+        <section className="space-y-2">
+          <h2 className="text-2xl font-bold text-ink-heading">Bem-vindo ao {config.name}</h2>
+          <p className="max-w-2xl text-ink-muted">{config.description}</p>
+        </section>
+      )}
+
       <section id="artigos" className="scroll-mt-6">
         <SectionTitle reduceMotion={reduceMotion}>Artigos recentes</SectionTitle>
         {recent.length === 0 ? (

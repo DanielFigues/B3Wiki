@@ -36,5 +36,6 @@ export interface SidebarCategory {
 export interface WikiConfig {
   name: string
   tagline: string
+  description?: string
   categories: SidebarCategory[]
 }
