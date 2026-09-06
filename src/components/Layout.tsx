@@ -31,15 +31,26 @@ function Layout() {
   return (
     <div className="relative isolate min-h-svh bg-paper font-sans text-ink">
       <AnimatedBackground />
-      <Header
-        siteName={config.name}
-        sidebarCollapsed={sidebarCollapsed}
-        onToggleSidebar={() => setSidebarCollapsed((c) => !c)}
-      />
-      <div className="relative flex">
+      {isLanding && (
+        <Header
+          siteName={config.name}
+          sidebarCollapsed={sidebarCollapsed}
+          onToggleSidebar={() => setSidebarCollapsed((c) => !c)}
+        />
+      )}
+      <div className="relative flex min-h-svh">
         {!isLanding && <Sidebar collapsed={sidebarCollapsed} />}
-        <main className={`min-w-0 flex-1 ${isLanding ? 'p-0' : 'px-6 pb-6 pt-16'}`}>
-          <Outlet />
+        <main className="min-w-0 flex-1">
+          {!isLanding && (
+            <Header
+              siteName={config.name}
+              sidebarCollapsed={sidebarCollapsed}
+              onToggleSidebar={() => setSidebarCollapsed((c) => !c)}
+            />
+          )}
+          <div className={isLanding ? 'p-0' : 'px-6 pb-6'}>
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

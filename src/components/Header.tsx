@@ -91,7 +91,9 @@ function Header({ siteName, sidebarCollapsed, onToggleSidebar }: HeaderProps) {
 
   return (
     <header
-      className={`app-header ${hidden ? 'header-hidden' : 'header-slide-in'} fixed inset-x-0 top-0 z-40 backdrop-blur-xl border-b border-line/40 bg-surface/50`}
+      className={`app-header ${hidden ? 'header-hidden' : 'header-slide-in'} z-40 backdrop-blur-xl border-b border-line/40 bg-surface/50 ${
+        isLanding ? 'fixed inset-x-0 top-0' : 'sticky top-0'
+      }`}
     >
       <div className="flex items-center gap-3 px-4 py-3">
         {!isLanding && toggleSidebarButton}
