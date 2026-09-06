@@ -12,7 +12,7 @@ function Sidebar({ collapsed = false }: SidebarProps) {
   return (
     <aside
       className={`sticky top-0 h-svh shrink-0 self-start border-r border-line bg-surface/60 backdrop-blur-xl transition-[width] duration-300 ${
-        collapsed ? 'w-0 overflow-hidden border-r-0' : 'w-56 overflow-y-auto'
+        collapsed ? 'w-0 overflow-hidden border-r-0' : 'w-56 overflow-hidden'
       }`}
     >
       <nav aria-label="Navegação da wiki" className="w-56 p-4">
