@@ -1,6 +1,7 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import SearchBar from './SearchBar'
 import { useWiki } from '../store/index'
+import { slugify } from '../utils/slug'
 
 interface HeaderProps {
   siteName: string
@@ -9,10 +10,12 @@ interface HeaderProps {
 }
 
 function Header({ siteName, sidebarCollapsed, onToggleSidebar }: HeaderProps) {
-  const { articles } = useWiki()
+  const { articles, config } = useWiki()
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const isLanding = pathname === '/'
+
+  if (isLanding) return null
 
   const handleRandom = () => {
     const slugs = Object.keys(articles)
@@ -36,6 +39,24 @@ function Header({ siteName, sidebarCollapsed, onToggleSidebar }: HeaderProps) {
     </button>
   )
 
+  const categoryLinks = (
+    <nav aria-label="Categorias" className="hidden items-center gap-1.5 lg:flex">
+      {config.categories.map((category) => (
+        <NavLink
+          key={category.title}
+          to={`/categoria/${slugify(category.title)}`}
+          className={({ isActive }) =>
+            `whitespace-nowrap rounded-full px-3 py-1 text-sm transition-colors ${
+              isActive ? 'bg-accent-soft text-accent' : 'text-ink-muted hover:bg-surface hover:text-ink-heading'
+            }`
+          }
+        >
+          {category.title}
+        </NavLink>
+      ))}
+    </nav>
+  )
+
   const randomButton = (
     <button
       type="button"
@@ -48,14 +69,15 @@ function Header({ siteName, sidebarCollapsed, onToggleSidebar }: HeaderProps) {
 
   return (
     <header className="bg-transparent">
-      <div className="flex items-center gap-4 px-4 py-3">
-        {!isLanding && toggleSidebarButton}
+      <div className="flex items-center gap-3 px-4 py-3">
+        {toggleSidebarButton}
         <Link
           to="/"
-          className="text-xl font-semibold text-ink-heading transition-shadow duration-300 hover:drop-shadow-[0_0_10px_var(--color-glow)] hover:no-underline"
+          className="shrink-0 text-xl font-semibold text-ink-heading transition-shadow duration-300 hover:drop-shadow-[0_0_10px_var(--color-glow)] hover:no-underline"
         >
           {siteName}
         </Link>
+        {categoryLinks}
         <SearchBar className="max-w-sm flex-1" />
         {randomButton}
       </div>
