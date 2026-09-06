@@ -107,7 +107,7 @@ function Home() {
             delay={60}
             direction="top"
             animationFrom={{ filter: 'blur(8px)', opacity: 0, y: -16 }}
-            className="mx-auto mt-4 max-w-2xl text-lg text-ink-muted"
+className="mx-auto mt-4 max-w-2xl justify-center text-lg text-ink-muted"
           />
           )}
 
