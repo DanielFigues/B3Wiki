@@ -1,7 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
-import { Infobox } from '../components/index'
-import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
 import { formatDate } from '../utils/date'
 import { useWiki } from '../store/index'
 
@@ -52,13 +50,6 @@ function ArticleView() {
         <div className="markdown">
           <ReactMarkdown>{article.content}</ReactMarkdown>
         </div>
-        {article.infobox && (
-          <div className="mt-4 md:float-right md:ml-6 md:mt-0 md:w-72">
-            <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.28)" className="p-0">
-              <Infobox data={article.infobox} />
-            </SpotlightCard>
-          </div>
-        )}
       </div>
 
       <footer className="sticky bottom-0 z-10 mt-8 border-t border-line bg-paper/70 py-2.5 text-center text-xs text-ink-muted backdrop-blur-md">
