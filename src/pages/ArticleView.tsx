@@ -1,11 +1,13 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import { formatDate } from '../utils/date'
-import { useWiki } from '../store/index'
+import { useWiki, useWikiActions } from '../store/index'
 
 function ArticleView() {
   const { slug = '' } = useParams()
   const { articles } = useWiki()
+  const { deleteArticle } = useWikiActions()
+  const navigate = useNavigate()
   const article = articles[slug]
 
   if (!article) {
@@ -37,11 +39,27 @@ function ArticleView() {
     </Link>
   )
 
+  const excluir = (
+    <button
+      type="button"
+      onClick={() => {
+        if (window.confirm(`Excluir o artigo "${article.title}"?`)) {
+          deleteArticle(article.slug)
+          navigate('/')
+        }
+      }}
+      className="shrink-0 rounded border border-line bg-surface px-3 py-1.5 text-sm text-ink hover:border-accent-2 hover:text-accent-2"
+    >
+      Excluir
+    </button>
+  )
+
   return (
     <article>
-      <div className="flex items-center justify-between gap-4 border-b border-line pb-3">
-        <h1 className="text-3xl font-bold text-ink-heading">{article.title}</h1>
+      <div className="flex items-center gap-2 border-b border-line pb-3">
+        <h1 className="min-w-0 flex-1 text-3xl font-bold text-ink-heading">{article.title}</h1>
         {editar}
+        {excluir}
       </div>
 
       {article.summary && <p className="mt-3 max-w-3xl text-ink-muted">{article.summary}</p>}
