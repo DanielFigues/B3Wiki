@@ -87,7 +87,7 @@ function Home() {
                 text={config.name}
                 color="#fafaf9"
                 highlightColor="#8b5cf6"
-                fontSize="clamp(2.5rem, 8vw, 4.5rem)"
+                fontSize="clamp(3rem, 10vw, 6.5rem)"
                 fontWeight={800}
                 density={4}
                 particleSize={1.8}
