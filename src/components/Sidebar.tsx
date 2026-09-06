@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { useWiki } from '../store/index'
 import { slugify } from '../utils/slug'
 
@@ -11,25 +11,46 @@ function Sidebar({ collapsed = false }: SidebarProps) {
 
   return (
     <aside
-      className={`shrink-0 border-r border-line bg-surface transition-[width] duration-300 ${
-        collapsed ? 'w-0 overflow-hidden border-r-0' : 'w-56'
+      className={`sticky top-0 h-svh shrink-0 self-start border-r border-line bg-surface/60 backdrop-blur-xl transition-[width] duration-300 ${
+        collapsed ? 'w-0 overflow-hidden border-r-0' : 'w-56 overflow-y-auto'
       }`}
     >
       <nav aria-label="Navegação da wiki" className="w-56 p-4">
+        <p className="mb-4 px-2 text-xs font-semibold uppercase tracking-widest text-ink-muted">
+          Navegação
+        </p>
         {config.categories.map((category) => (
           <section key={category.title} className="mb-5">
-            <Link
+            <NavLink
               to={`/categoria/${slugify(category.title)}`}
-              className="mb-1 block text-xs font-semibold uppercase tracking-wide text-ink-muted hover:text-accent hover:no-underline"
+              className={({ isActive }) =>
+                `group mb-1.5 flex items-center justify-between rounded-md px-2 py-1.5 text-xs font-semibold uppercase tracking-wide transition-colors ${
+                  isActive
+                    ? 'bg-accent-soft text-ink-heading'
+                    : 'text-ink-muted hover:bg-surface hover:text-ink-heading'
+                }`
+              }
             >
-              {category.title}
-            </Link>
-            <ul className="space-y-0.5">
+              <span className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-r from-accent to-accent-2" />
+                {category.title}
+              </span>
+            </NavLink>
+            <ul className="ml-2 space-y-0.5 border-l border-line/60 pl-2">
               {category.links.map((link) => (
                 <li key={link.slug}>
-                  <Link to={link.url} className="text-sm text-accent hover:underline">
+                  <NavLink
+                    to={link.url}
+                    className={({ isActive }) =>
+                      `block rounded-md px-2 py-1 text-sm transition-colors ${
+                        isActive
+                          ? 'bg-accent-soft font-medium text-accent'
+                          : 'text-ink-muted hover:bg-surface hover:text-ink-heading'
+                      }`
+                    }
+                  >
                     {link.title}
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
