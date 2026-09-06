@@ -1,7 +1,7 @@
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useWiki } from '../store/index'
 import { slugify } from '../utils/slug'
-import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
+import ArticleCard from '../components/ArticleCard'
 
 function CategoryPage() {
   const { categoria = '' } = useParams()
@@ -17,18 +17,16 @@ function CategoryPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-ink-heading">{title}</h1>
+      <p className="mt-1 text-sm text-ink-muted">
+        {items.length === 1 ? '1 artigo' : `${items.length} artigos`}
+      </p>
       {items.length === 0 ? (
-        <p className="mt-3 text-ink-muted">Nenhum artigo nesta categoria ainda.</p>
+        <p className="mt-6 text-ink-muted">Nenhum artigo nesta categoria ainda.</p>
       ) : (
-        <ul className="mt-4 space-y-3">
+        <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((article) => (
             <li key={article.slug}>
-              <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="block hover:no-underline">
-                <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="p-4 text-left">
-                  <h2 className="font-semibold text-ink-heading">{article.title}</h2>
-                  <p className="mt-1 text-sm text-ink-muted">{article.summary}</p>
-                </SpotlightCard>
-              </Link>
+              <ArticleCard article={article} />
             </li>
           ))}
         </ul>

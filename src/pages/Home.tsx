@@ -10,6 +10,7 @@ import Particles from '../components/reactbits/Backgrounds/Particles/Particles'
 import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
 import ShinyText from '../components/reactbits/TextAnimations/ShinyText/ShinyText'
 import FadeContent from '../components/reactbits/Animations/FadeContent/FadeContent'
+import ArticleCard from '../components/ArticleCard'
 
 function SectionTitle({ reduceMotion, children }: { reduceMotion: boolean; children: string }) {
   return reduceMotion ? (
@@ -27,10 +28,6 @@ function SectionTitle({ reduceMotion, children }: { reduceMotion: boolean; child
       />
     </h2>
   )
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })
 }
 
 function Home() {
@@ -138,16 +135,7 @@ function Home() {
           <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {recent.map((article) => (
               <li key={article.slug}>
-                <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="block h-full hover:no-underline">
-                  <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="h-full p-4 text-left">
-                    <h3 className="font-semibold text-ink-heading">{article.title}</h3>
-                    <p className="mt-1 text-sm text-ink-muted">{article.summary}</p>
-                    <p className="mt-3 text-xs text-ink-muted">
-                      <span className="rounded bg-surface px-1.5 py-0.5 text-accent">{article.categories[0]}</span>
-                      <span className="ml-2">{formatDate(article.updatedAt)}</span>
-                    </p>
-                  </SpotlightCard>
-                </Link>
+                <ArticleCard article={article} />
               </li>
             ))}
           </ul>
@@ -156,16 +144,7 @@ function Home() {
             <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {recent.map((article) => (
                 <li key={article.slug}>
-                  <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="block h-full hover:no-underline">
-                    <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="h-full p-4 text-left">
-                      <h3 className="font-semibold text-ink-heading">{article.title}</h3>
-                      <p className="mt-1 text-sm text-ink-muted">{article.summary}</p>
-                      <p className="mt-3 text-xs text-ink-muted">
-                        <span className="rounded bg-surface px-1.5 py-0.5 text-accent">{article.categories[0]}</span>
-                        <span className="ml-2">{formatDate(article.updatedAt)}</span>
-                      </p>
-                    </SpotlightCard>
-                  </Link>
+                  <ArticleCard article={article} />
                 </li>
               ))}
             </ul>

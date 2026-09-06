@@ -1,6 +1,6 @@
-import { Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { useWiki } from '../store/index'
-import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
+import ArticleCard from '../components/ArticleCard'
 
 function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -35,22 +35,22 @@ function SearchPage() {
       />
 
       {query.trim() === '' ? (
-        <p className="mt-4 text-ink-muted">Digite algo para buscar.</p>
+        <p className="mt-6 text-ink-muted">Digite algo para buscar.</p>
       ) : results.length === 0 ? (
-        <p className="mt-4 text-ink-muted">Nenhum resultado para “{query.trim()}”.</p>
+        <p className="mt-6 text-ink-muted">Nenhum resultado para “{query.trim()}”.</p>
       ) : (
-        <ul className="mt-4 space-y-3">
-          {results.map((article) => (
-            <li key={article.slug}>
-              <Link to={`/wiki/${encodeURIComponent(article.slug)}`} className="block hover:no-underline">
-                <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="p-4 text-left">
-                  <h2 className="font-semibold text-ink-heading">{article.title}</h2>
-                  <p className="mt-1 text-sm text-ink-muted">{article.summary}</p>
-                </SpotlightCard>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <>
+          <p className="mt-6 text-sm text-ink-muted">
+            {results.length === 1 ? '1 resultado' : `${results.length} resultados`}
+          </p>
+          <ul className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {results.map((article) => (
+              <li key={article.slug}>
+                <ArticleCard article={article} />
+              </li>
+            ))}
+          </ul>
+        </>
       )}
     </div>
   )
