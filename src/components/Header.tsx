@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import SearchBar from './SearchBar'
 import { useWiki } from '../store/index'
@@ -16,16 +16,39 @@ function Header({ siteName, sidebarCollapsed, onToggleSidebar }: HeaderProps) {
   const { pathname } = useLocation()
   const isLanding = pathname === '/'
 
-  const [scrolled, setScrolled] = useState(false)
+  const [visible, setVisible] = useState(false)
+  const [hiding, setHiding] = useState(false)
+  const hideTimer = useRef<number | undefined>(undefined)
+
   useEffect(() => {
     if (!isLanding) return
-    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.66)
+    const onScroll = () => {
+      const show = window.scrollY > window.innerHeight * 0.66
+      if (show) {
+        if (hideTimer.current !== undefined) {
+          window.clearTimeout(hideTimer.current)
+          hideTimer.current = undefined
+        }
+        setHiding(false)
+        setVisible(true)
+      } else if (visible && !hiding) {
+        setHiding(true)
+        hideTimer.current = window.setTimeout(() => {
+          setVisible(false)
+          setHiding(false)
+          hideTimer.current = undefined
+        }, 220)
+      }
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [isLanding])
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (hideTimer.current !== undefined) window.clearTimeout(hideTimer.current)
+    }
+  }, [isLanding, visible, hiding])
 
-  if (isLanding && !scrolled) return null
+  if (isLanding && !visible) return null
 
   const handleRandom = () => {
     const slugs = Object.keys(articles)
@@ -79,7 +102,7 @@ function Header({ siteName, sidebarCollapsed, onToggleSidebar }: HeaderProps) {
 
   return (
     <header
-      className={`header-slide-in backdrop-blur-xl ${isLanding ? 'fixed inset-x-0 top-0 z-40' : ''} border-b border-line/40 bg-surface/50`}
+      className={`${hiding ? 'header-slide-out' : 'header-slide-in'} backdrop-blur-xl ${isLanding ? 'fixed inset-x-0 top-0 z-40' : ''} border-b border-line/40 bg-surface/50`}
     >
       <div className="flex items-center gap-3 px-4 py-3">
         {!isLanding && toggleSidebarButton}
