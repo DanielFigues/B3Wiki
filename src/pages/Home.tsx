@@ -11,6 +11,7 @@ import SpotlightCard from '../components/reactbits/Components/SpotlightCard/Spot
 import ShinyText from '../components/reactbits/TextAnimations/ShinyText/ShinyText'
 import FadeContent from '../components/reactbits/Animations/FadeContent/FadeContent'
 import ArticleCard from '../components/ArticleCard'
+import { formatDate } from '../utils/date'
 
 function SectionTitle({ reduceMotion, children }: { reduceMotion: boolean; children: string }) {
   return reduceMotion ? (
@@ -203,6 +204,12 @@ function Home() {
         )}
       </section>
       </div>
+
+      {recent[0] && (
+        <footer className="sticky bottom-0 z-10 border-t border-line bg-paper/70 py-2.5 text-center text-xs text-ink-muted backdrop-blur-md">
+          Última atualização: {formatDate(recent[0].updatedAt)}
+        </footer>
+      )}
     </div>
   )
 }
