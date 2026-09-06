@@ -179,23 +179,20 @@
   }
 }
 
+.app-header {
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
 .header-slide-in {
   animation: header-slide-in 0.35s ease-out;
 }
 
-@keyframes header-slide-out {
-  from {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-}
-
-.header-slide-out {
-  animation: header-slide-out 0.22s ease-in forwards;
+.header-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

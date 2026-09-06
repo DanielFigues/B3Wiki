@@ -38,7 +38,7 @@ function Layout() {
       />
       <div className="relative flex">
         {!isLanding && <Sidebar collapsed={sidebarCollapsed} />}
-        <main className={`min-w-0 flex-1 ${isLanding ? 'p-0' : 'px-6 py-6'}`}>
+        <main className={`min-w-0 flex-1 ${isLanding ? 'p-0' : 'px-6 pb-6 pt-16'}`}>
           <Outlet />
         </main>
       </div>

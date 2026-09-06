@@ -16,39 +16,28 @@ function Header({ siteName, sidebarCollapsed, onToggleSidebar }: HeaderProps) {
   const { pathname } = useLocation()
   const isLanding = pathname === '/'
 
-  const [visible, setVisible] = useState(false)
-  const [hiding, setHiding] = useState(false)
-  const hideTimer = useRef<number | undefined>(undefined)
+  const [hidden, setHidden] = useState(isLanding)
+  const lastScrollY = useRef(0)
 
   useEffect(() => {
-    if (!isLanding) return
+    lastScrollY.current = window.scrollY
     const onScroll = () => {
-      const show = window.scrollY > window.innerHeight * 0.66
-      if (show) {
-        if (hideTimer.current !== undefined) {
-          window.clearTimeout(hideTimer.current)
-          hideTimer.current = undefined
-        }
-        setHiding(false)
-        setVisible(true)
-      } else if (visible && !hiding) {
-        setHiding(true)
-        hideTimer.current = window.setTimeout(() => {
-          setVisible(false)
-          setHiding(false)
-          hideTimer.current = undefined
-        }, 220)
+      const y = window.scrollY
+      if (isLanding) {
+        setHidden(y <= window.innerHeight * 0.66)
+      } else if (y <= 8) {
+        setHidden(false)
+      } else {
+        const delta = y - lastScrollY.current
+        if (delta > 0) setHidden(true)
+        else if (delta < 0) setHidden(false)
       }
+      lastScrollY.current = y
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      if (hideTimer.current !== undefined) window.clearTimeout(hideTimer.current)
-    }
-  }, [isLanding, visible, hiding])
-
-  if (isLanding && !visible) return null
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [isLanding])
 
   const handleRandom = () => {
     const slugs = Object.keys(articles)
@@ -102,7 +91,7 @@ function Header({ siteName, sidebarCollapsed, onToggleSidebar }: HeaderProps) {
 
   return (
     <header
-      className={`${hiding ? 'header-slide-out' : 'header-slide-in'} backdrop-blur-xl ${isLanding ? 'fixed inset-x-0 top-0 z-40' : ''} border-b border-line/40 bg-surface/50`}
+      className={`app-header ${hidden ? 'header-hidden' : 'header-slide-in'} fixed inset-x-0 top-0 z-40 backdrop-blur-xl border-b border-line/40 bg-surface/50`}
     >
       <div className="flex items-center gap-3 px-4 py-3">
         {!isLanding && toggleSidebarButton}
