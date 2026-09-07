@@ -1,46 +1,81 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
-import Infobox from '../components/Infobox'
-import type { Article } from '../types/index'
+import { formatDate } from '../utils/date'
+import { useWiki, useWikiActions } from '../store/index'
 
 function ArticleView() {
   const { slug = '' } = useParams()
+  const { articles } = useWiki()
+  const { deleteArticle } = useWikiActions()
+  const navigate = useNavigate()
+  const article = articles[slug]
 
-  const article: Article = {
-    id: 'example',
-    slug,
-    title: 'Example Article',
-    summary: 'This is a placeholder article rendered from Markdown.',
-    content:
-      '# Hello!\n\nThis is a **placeholder** article demonstrating Markdown rendering.\n\n- List item one\n- List item two\n\n> A blockquote for good measure.',
-    categories: ['General'],
-    updatedAt: '2026-09-01',
+  if (!article) {
+    const criar = (
+      <Link
+        to={`/editor?slug=${encodeURIComponent(slug)}`}
+        className="mt-4 inline-block rounded border border-line bg-surface px-3 py-1.5 text-sm text-accent hover:border-accent"
+      >
+        Criar este artigo
+      </Link>
+    )
+    return (
+      <div>
+        <h1 className="text-2xl font-bold text-ink-heading">Artigo não encontrado</h1>
+        <p className="mt-2 text-ink-muted">
+          Não existe nenhum artigo com o endereço “{slug}”.
+        </p>
+        {criar}
+      </div>
+    )
   }
 
-  const infobox = {
-    title: 'Example Article',
-    fields: [
-      { label: 'Category', value: 'General' },
-      { label: 'Last updated', value: '2026-09-01' },
-    ],
-  }
+  const editar = (
+    <Link
+      to={`/editor?slug=${encodeURIComponent(article.slug)}`}
+      className="shrink-0 rounded border border-line bg-surface px-3 py-1.5 text-sm text-accent hover:border-accent"
+    >
+      Editar
+    </Link>
+  )
+
+  const excluir = (
+    <button
+      type="button"
+      onClick={() => {
+        if (window.confirm(`Excluir o artigo "${article.title}"?`)) {
+          deleteArticle(article.slug)
+          navigate('/')
+        }
+      }}
+      className="shrink-0 rounded border border-line bg-surface px-3 py-1.5 text-sm text-ink hover:border-accent-2 hover:text-accent-2"
+    >
+      Excluir
+    </button>
+  )
 
   return (
-    <article className="article">
-      <div className="article-header">
-        <h1>{article.title}</h1>
-        <Link to={`/editor?slug=${encodeURIComponent(slug)}`} className="edit-link">
-          Edit
-        </Link>
+    <article>
+      <div className="flex items-center gap-2 border-b border-line pb-3">
+        <h1 className="min-w-0 flex-1 text-3xl font-bold text-ink-heading">{article.title}</h1>
+        {editar}
+        {excluir}
       </div>
-      <p className="article-summary">{article.summary}</p>
 
-      <div className="article-body">
-        <div className="article-content">
+      {article.summary && <p className="mt-3 max-w-3xl text-ink-muted">{article.summary}</p>}
+
+      <div className="mt-4 max-w-3xl">
+        <div className="markdown">
           <ReactMarkdown>{article.content}</ReactMarkdown>
         </div>
-        <Infobox data={infobox} />
       </div>
+
+      <footer className="sticky bottom-0 z-10 mt-8 border-t border-line bg-paper/70 py-2.5 text-center text-xs text-ink-muted backdrop-blur-md">
+        {article.categories[0] && (
+          <span className="rounded bg-surface/70 px-1.5 py-0.5 text-accent">{article.categories[0]}</span>
+        )}
+        <span className="ml-2">Última atualização: {formatDate(article.updatedAt)}</span>
+      </footer>
     </article>
   )
 }

@@ -6,6 +6,7 @@ export interface Article {
   content: string
   categories: string[]
   updatedAt: string
+  infobox?: InfoboxData
 }
 
 export interface ArticleLink {
@@ -35,5 +36,7 @@ export interface SidebarCategory {
 export interface WikiConfig {
   name: string
   tagline: string
+  description?: string
+  featured?: string[]
   categories: SidebarCategory[]
 }

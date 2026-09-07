@@ -1,31 +1,243 @@
 import { Link } from 'react-router-dom'
+import { useWiki } from '../store/index'
+import { slugify } from '../utils/slug'
+import { useReducedMotion } from '../hooks/useReducedMotion'
+import BlurText from '../components/reactbits/TextAnimations/BlurText/BlurText'
+import CountUp from '../components/reactbits/TextAnimations/CountUp/CountUp'
+import ParticleText from '../components/reactbits/TextAnimations/ParticleText/ParticleText'
+
+import Particles from '../components/reactbits/Backgrounds/Particles/Particles'
+import SpotlightCard from '../components/reactbits/Components/SpotlightCard/SpotlightCard'
+import BorderGlow from '../components/reactbits/Components/BorderGlow/BorderGlow'
+import ShinyText from '../components/reactbits/TextAnimations/ShinyText/ShinyText'
+import FadeContent from '../components/reactbits/Animations/FadeContent/FadeContent'
+import ArticleCard from '../components/ArticleCard'
+import { formatDate } from '../utils/date'
+
+function SectionTitle({ reduceMotion, children }: { reduceMotion: boolean; children: string }) {
+  return reduceMotion ? (
+    <h2 className="text-xl font-semibold text-ink-heading">{children}</h2>
+  ) : (
+    <h2 className="text-xl font-semibold text-ink-heading">
+      <ShinyText
+        text={children}
+        speed={3}
+        delay={0.6}
+        spread={100}
+        color="var(--color-ink-heading)"
+        shineColor="var(--color-accent)"
+        pauseOnHover
+      />
+    </h2>
+  )
+}
 
 function Home() {
-  return (
-    <div className="home">
-      <div className="home-hero">
-        <h1>Welcome to B3Wiki</h1>
-        <p>
-          A community-run encyclopedia for our Discord server. Explore articles,
-          learn about the community, and contribute your own knowledge.
-        </p>
-      </div>
+  const { config, articles } = useWiki()
+  const reduceMotion = useReducedMotion()
 
-      <section className="home-section">
-        <h2>Getting Started</h2>
-        <p>
-          Browse the sidebar to explore categories, or create a new article
-          using the editor.
-        </p>
-        <div className="home-actions">
-          <Link to="/wiki/example" className="home-action">
-            View an example article
-          </Link>
-          <Link to="/editor" className="home-action">
-            Write a new article
-          </Link>
+  const articleCount = Object.keys(articles).length
+  const categoryCount = config.categories.length
+
+  const recent = Object.values(articles)
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+    .slice(0, 6)
+
+  const ctaExplorar = (
+    <BorderGlow animated backgroundColor="rgba(158, 116, 246, 0.14)" borderRadius={12} glowRadius={28} colors={['#c084fc', '#a78bfa', '#8b5cf6']}>
+      <a
+        href="#artigos"
+        className="block rounded-[11px] bg-accent/20 px-5 py-2.5 text-sm font-semibold text-accent-contrast backdrop-blur-md"
+      >
+        Explorar wiki
+      </a>
+    </BorderGlow>
+  )
+
+  const ctaCriar = (
+    <BorderGlow animated backgroundColor="rgba(24, 22, 33, 0.45)" borderRadius={12} glowRadius={28} colors={['#8b5cf6', '#38bdf8', '#a78bfa']}>
+      <Link
+        to="/editor"
+        className="block rounded-[11px] border border-line/60 bg-surface/45 px-5 py-2.5 text-sm font-semibold text-ink backdrop-blur-md hover:border-accent"
+      >
+        Criar artigo
+      </Link>
+    </BorderGlow>
+  )
+
+  return (
+    <div>
+      <section className="hero-dark relative flex min-h-screen items-center justify-center overflow-hidden px-6 py-24 text-center sm:px-12">
+        {!reduceMotion && (
+          <div className="absolute inset-0">
+            <Particles
+              particleCount={250}
+              particleSpread={14}
+              speed={0.1}
+              particleColors={['#8b5cf6', '#a78bfa', '#6d28d9']}
+              alphaParticles
+              particleBaseSize={90}
+            />
+          </div>
+        )}
+
+        <div className="relative z-10 w-full">
+          {reduceMotion ? (
+            <h1 className="text-4xl font-bold text-ink-heading sm:text-6xl">{config.name}</h1>
+          ) : (
+            <div className="mx-auto h-[22rem] w-full max-w-4xl sm:h-[26rem]">
+              <ParticleText
+                text={config.name}
+                color="#fafaf9"
+                highlightColor="#8b5cf6"
+                fontSize="clamp(9rem, 30vw, 19.5rem)"
+                fontWeight={800}
+                density={4}
+                particleSize={1.8}
+                scatter={140}
+                gatherDuration={1800}
+                glow
+              />
+            </div>
+          )}
+
+          {reduceMotion ? (
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-ink-muted">{config.tagline}</p>
+          ) : (
+<BlurText
+            text={config.tagline}
+            animateBy="words"
+            delay={60}
+            direction="top"
+            animationFrom={{ filter: 'blur(8px)', opacity: 0, y: -16 }}
+className="mx-auto mt-4 max-w-2xl justify-center text-lg text-ink-muted"
+          />
+          )}
+
+          <div className="mt-10 flex items-center justify-center gap-12">
+            <div>
+              <p className="text-3xl font-bold text-accent">
+                {reduceMotion ? articleCount : <CountUp to={articleCount} duration={1.6} />}
+              </p>
+              <p className="text-sm text-ink-muted">artigos</p>
+            </div>
+            <div>
+              <p className="text-3xl font-bold text-accent-2">
+                {reduceMotion ? categoryCount : <CountUp to={categoryCount} duration={1.6} />}
+              </p>
+              <p className="text-sm text-ink-muted">categorias</p>
+            </div>
+          </div>
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            {ctaExplorar}
+            {ctaCriar}
+          </div>
         </div>
       </section>
+
+      <div className="mx-auto max-w-5xl space-y-14 px-6 py-16">
+      {config.description && (
+        <section className="space-y-2">
+          <h2 className="text-2xl font-bold text-ink-heading">Bem-vindo ao {config.name}</h2>
+          <p className="max-w-2xl text-ink-muted">{config.description}</p>
+        </section>
+      )}
+
+      {config.featured && config.featured.length > 0 && (
+        <section>
+          <SectionTitle reduceMotion={reduceMotion}>Destaques</SectionTitle>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {config.featured.map((featuredSlug) => {
+              const article = articles[featuredSlug]
+              return article ? <ArticleCard key={featuredSlug} article={article} /> : null
+            })}
+          </div>
+        </section>
+      )}
+
+      <section id="artigos" className="scroll-mt-6">
+        <SectionTitle reduceMotion={reduceMotion}>Artigos recentes</SectionTitle>
+        {recent.length === 0 ? (
+          <p className="text-ink-muted">Nenhum artigo ainda. Crie o primeiro no editor.</p>
+        ) : reduceMotion ? (
+          <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {recent.map((article) => (
+              <li key={article.slug}>
+                <ArticleCard article={article} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <FadeContent duration={700}>
+            <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {recent.map((article) => (
+                <li key={article.slug}>
+                  <ArticleCard article={article} />
+                </li>
+              ))}
+            </ul>
+          </FadeContent>
+        )}
+      </section>
+
+      <section>
+        <SectionTitle reduceMotion={reduceMotion}>Categorias</SectionTitle>
+        {reduceMotion ? (
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {config.categories.map((category) => {
+              const count = Object.values(articles).filter((article) =>
+                article.categories.includes(category.title),
+              ).length
+              return (
+                <Link
+                  key={category.title}
+                  to={`/categoria/${slugify(category.title)}`}
+                  className="block hover:no-underline"
+                >
+                  <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="h-full p-5 text-left">
+                    <h3 className="font-semibold text-ink-heading">{category.title}</h3>
+                    <p className="mt-1 text-sm text-ink-muted">
+                      {count === 1 ? '1 artigo' : `${count} artigos`}
+                    </p>
+                  </SpotlightCard>
+                </Link>
+              )
+            })}
+          </div>
+        ) : (
+          <FadeContent duration={700}>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {config.categories.map((category) => {
+                const count = Object.values(articles).filter((article) =>
+                  article.categories.includes(category.title),
+                ).length
+                return (
+                  <Link
+                    key={category.title}
+                    to={`/categoria/${slugify(category.title)}`}
+                    className="block hover:no-underline"
+                  >
+                    <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.30)" className="h-full p-5 text-left">
+                      <h3 className="font-semibold text-ink-heading">{category.title}</h3>
+                      <p className="mt-1 text-sm text-ink-muted">
+                        {count === 1 ? '1 artigo' : `${count} artigos`}
+                      </p>
+                    </SpotlightCard>
+                  </Link>
+                )
+              })}
+            </div>
+          </FadeContent>
+        )}
+      </section>
+      </div>
+
+      {recent[0] && (
+        <footer className="sticky bottom-0 z-10 border-t border-line bg-paper/70 py-2.5 text-center text-xs text-ink-muted backdrop-blur-md">
+          Última atualização: {formatDate(recent[0].updatedAt)}
+        </footer>
+      )}
     </div>
   )
 }
