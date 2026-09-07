@@ -75,8 +75,6 @@ function Home() {
               particleSpread={14}
               speed={0.1}
               particleColors={['#8b5cf6', '#a78bfa', '#6d28d9']}
-              moveParticlesOnHover
-              particleHoverFactor={1.2}
               alphaParticles
               particleBaseSize={90}
             />
