@@ -1,0 +1,3 @@
+com\b3wiki\api\ApiApplication.class
+com\b3wiki\api\domain\Article.class
+com\b3wiki\api\domain\ArticleRepository.class
