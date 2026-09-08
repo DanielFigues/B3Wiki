@@ -1,3 +1,8 @@
-com\b3wiki\api\ApiApplication.class
+com\b3wiki\api\config\WebConfig.class
 com\b3wiki\api\domain\Article.class
 com\b3wiki\api\domain\ArticleRepository.class
+com\b3wiki\api\ApiApplication.class
+com\b3wiki\api\controller\ArticleController.class
+com\b3wiki\api\exception\GlobalExceptionHandler.class
+com\b3wiki\api\exception\ResourceNotFoundException.class
+com\b3wiki\api\service\ArticleService.class
