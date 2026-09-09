@@ -1,0 +1,8 @@
+C:\Users\daniel\OneDrive\Documentos\Daniel\Programas\B3Wiki\B3Wiki\backend\src\main\java\com\b3wiki\api\ApiApplication.java
+C:\Users\daniel\OneDrive\Documentos\Daniel\Programas\B3Wiki\B3Wiki\backend\src\main\java\com\b3wiki\api\config\WebConfig.java
+C:\Users\daniel\OneDrive\Documentos\Daniel\Programas\B3Wiki\B3Wiki\backend\src\main\java\com\b3wiki\api\controller\ArticleController.java
+C:\Users\daniel\OneDrive\Documentos\Daniel\Programas\B3Wiki\B3Wiki\backend\src\main\java\com\b3wiki\api\domain\Article.java
+C:\Users\daniel\OneDrive\Documentos\Daniel\Programas\B3Wiki\B3Wiki\backend\src\main\java\com\b3wiki\api\domain\ArticleRepository.java
+C:\Users\daniel\OneDrive\Documentos\Daniel\Programas\B3Wiki\B3Wiki\backend\src\main\java\com\b3wiki\api\exception\GlobalExceptionHandler.java
+C:\Users\daniel\OneDrive\Documentos\Daniel\Programas\B3Wiki\B3Wiki\backend\src\main\java\com\b3wiki\api\exception\ResourceNotFoundException.java
+C:\Users\daniel\OneDrive\Documentos\Daniel\Programas\B3Wiki\B3Wiki\backend\src\main\java\com\b3wiki\api\service\ArticleService.java
